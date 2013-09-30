@@ -37,7 +37,7 @@ app.set('view engine', 'html');
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.cookieSession({key:"fantaclacio",secret:"secret"}));
+app.use(express.cookieSession({key:"fantacalcio",secret:"secret"}));
 //app.use(express.session({key:"fantaclacio",secret:"secret"}));
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
