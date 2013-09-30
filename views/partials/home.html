@@ -1,0 +1,162 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="panel panel-info">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Your Leagues</div>
+
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th width="30%">League Name</th>
+                            <th width="30%">#Teams</th>
+                            <th width="20%"><span class="glyphicon glyphicon-pencil"></span></th>
+                            <th width="20%"><span class="glyphicon glyphicon-trash"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="league in leagues">
+                            <td>{{league.name}}</td>
+                            <td>{{league.teams}}</td>
+                            <td>
+                                <a type="button" class="btn btn-primary btn-sm" href="/home/#/league/{{league._id}}">
+                                    <span class="glyphicon glyphicon-pencil"></span> Manage
+                                </a>
+                            </td>
+                            <td>
+                                <button type="button" ng-click="delete_league(league)" class="btn btn-danger btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span> Delete
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="panel panel-success">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Your Teams</div>
+
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th width="30%">Team Name</th>
+                            <th width="30%">League Name</th>
+                            <th width="20%"><span class="glyphicon glyphicon-pencil"></span></th>
+                            <th width="20%"><span class="glyphicon glyphicon-trash"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="team in teams">
+                            <td>{{team.name}}</td>
+                            <td>{{team.subscribed_league.name}}</td>
+                            <td>
+                                <a type="button" class="btn btn-primary btn-sm" href="/home/#/team/{{team._id}}">
+                                    <span class="glyphicon glyphicon-pencil"></span> Manage
+                                </a>
+                            </td>
+                            <td>
+                                <button type="button" ng-click="delete_team(team)" class="btn btn-danger btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span> Delete
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+        </br>
+
+        <hr>
+
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create League</h3>
+                    </div>
+                    <div class="panel-body">
+                        Here you can create your league!
+                        </br></br>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/home/#/leagues" class="btn btn-default btn-lg col-md-offset-3">
+                                    <span class="glyphicon glyphicon-book"></span> Create!
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Create Team</h3>
+                    </div>
+                    <div class="panel-body">
+                        Here you can create your team!
+                        </br></br>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/home/#/teams" class="btn btn-default btn-lg col-md-offset-3">
+                                    <span class="glyphicon glyphicon-bookmark"></span> Found!
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Join League</h3>
+                    </div>
+                    <div class="panel-body">
+                        Here you can join existing league!
+                        </br></br>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/home/#/join_league" type="button" class="btn btn-default btn-lg col-md-offset-3">
+                                    <span class="glyphicon glyphicon-arrow-right"></span> Join!
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
