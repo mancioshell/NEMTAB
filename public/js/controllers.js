@@ -8,6 +8,7 @@ function WebAppCtrl($scope, $http,$window,$location) {
     {
         $http({method: 'DELETE', url: '/api/logout'}).
             success(function(data, status, headers, config) {
+                console.log("logout!");
                 $window.location.href="/";
             }).
             error(function(data, status, headers, config) {

@@ -6,7 +6,6 @@
 		"express": "~3.2.6",
         "ejs": "~0.7.1",
         "mongodb" : "*",
-        "mongoose" : "*",
-        "simplecrawler" : "0.3.4"
+        "mongoose" : "*"
 	}
 }

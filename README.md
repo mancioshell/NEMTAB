@@ -1,4 +1,7 @@
-# Angular Express Bootstrap Seed m
+#Angular Express MongoDB Bootstrap Noty JS Seed
+
+I improve this project, adding Noty JS (http://needim.github.io/noty/) for Popup Notifications, and creating a small set of REST APIs to perform login, logout and check session in Express JS, interacting with MongoDB.
+I remove Jade Templating, because i don't like it, so i implemented some little html page, using Angular JS template engine.
 
 Forked from [btford/angular-express-seed](https://github.com/btford/angular-express-seed) and spiced with [Twitter Bootstrap](https://github.com/twitter/bootstrap). jQuery added for convenience.
 
