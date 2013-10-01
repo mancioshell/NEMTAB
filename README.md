@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Angular Express Bootstrap Seed m
 
 Forked from [btford/angular-express-seed](https://github.com/btford/angular-express-seed) and spiced with [Twitter Bootstrap](https://github.com/twitter/bootstrap). jQuery added for convenience.
@@ -83,9 +82,3 @@ A simple [blog](https://github.com/btford/angular-express-blog) based on this se
 For more information on AngularJS please check out http://angularjs.org/
 For more on Express and Jade, http://expressjs.com/ and http://jade-lang.com/ are
 your friends.
-=======
-fantacalcioonline
-=================
-
-Fantacalcio Online
->>>>>>> 15dcc33d4b41e24a75c4b4fa8ed4a11b9ab1c71c

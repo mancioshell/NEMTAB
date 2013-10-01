@@ -7,6 +7,6 @@
         "ejs": "~0.7.1",
         "mongodb" : "*",
         "mongoose" : "*",
-        "simplecrawler" : "*"
+        "simplecrawler" : "0.3.4"
 	}
 }
