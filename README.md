@@ -1,6 +1,6 @@
 #Angular Express MongoDB Bootstrap Noty JS Seed
 
-I improve this project, adding Noty JS (http://needim.github.io/noty/) for Popup Notifications, and creating a small set of REST APIs to perform login, logout and check session in Express JS, interacting with MongoDB.
+I improved this project, adding Noty JS (http://needim.github.io/noty/) for Popup Notifications, and creating a small set of REST APIs to perform login, logout and check session in Express JS, interacting with MongoDB.
 I remove Jade Templating, because i don't like it, so i implemented some little html page, using Angular JS template engine.
 
 Forked from [btford/angular-express-seed](https://github.com/btford/angular-express-seed) and spiced with [Twitter Bootstrap](https://github.com/twitter/bootstrap). jQuery added for convenience.
@@ -43,6 +43,8 @@ Just fetch the changes and merge them into your project with git.
     
     app.js              --> app config
     package.json        --> for npm
+    models/             --> contains mongoDB simple user Schema
+        users.js
     public/             --> all of the files to be used in on the client side
       bootstrap/        --> all bootstrap files
         css/
@@ -63,15 +65,24 @@ Just fetch the changes and merge them into your project with git.
             angular.min.js        --> the latest minified angular js
             angular-*.js          --> angular add-on modules
             version.txt           --> version number
+          jquery/
+            jquery-2.0.3.min.js
+          noty/
+            layouts/
+                top.js
+            themes/
+                default.js
+            jquery.noty.js
     routes/
-      api.js            --> route for serving JSON
+      api.js            --> route for serving JSON, contains MongoDB configuration
       index.js          --> route for serving HTML pages and partials
     views/
-      index.jade        --> main page for app
-      layout.jade       --> doctype, title, head boilerplate
+      index.html        --> main page for app
+      webapp.html       --> session authenticated page
       partials/         --> angular view partials (partial jade templates)
-        partial1.jade
-        partial2.jade
+        home.html
+        login.html
+        register.html
 
 
 
