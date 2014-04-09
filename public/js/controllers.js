@@ -1,48 +1,57 @@
 'use strict';
 
+var mainAppControllers = angular.module('mainAppControllers', []);
+
 /* Controllers */
 
-function WebAppCtrl($scope, $http,$window,$location) {
+mainAppControllers.controller('WebAppCtrl', ['$scope', '$http','$window','$location',
+    function ($scope, $http) {
 
-    $scope.logout = function()
-    {
-        $http({method: 'DELETE', url: '/api/logout'}).
-            success(function(data, status, headers, config) {
-                console.log("logout!");
-                $window.location.href="/";
-            }).
-            error(function(data, status, headers, config) {
-                console.log(data);
-            });
-    }
-
-}
-
-WebAppCtrl.$inject = ["$scope","$http","$window","$location"];
-
-function LoginCtrl($scope,$http,$window,$location) {
-    $scope.failed_login = "";
-
-    $scope.login = function()
-    {
-
-        var user = {"username": $scope.username, "password": $scope.password};
-
-        if($scope.username!==undefined || $scope.password !==undefined){
-            $http({method: 'POST', url: '/api/login', data:user}).
+        $scope.logout = function()
+        {
+            $http({method: 'DELETE', url: '/api/logout'}).
                 success(function(data, status, headers, config) {
-                    console.log(data);
-                    $window.location.href="/home";
+                    console.log("logout!");
+                    $window.location.href="/";
                 }).
                 error(function(data, status, headers, config) {
                     console.log(data);
-                    noty({text: data,  timeout: 2000, type: 'error'});
                 });
         }
-
     }
-}
-LoginCtrl.$inject = ["$scope","$http","$window","$location"];
+]);
+
+
+mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location',
+    function ($scope, $http) {
+
+        $scope.failed_login = "";
+
+        $scope.login = function()
+        {
+
+            var user = {"username": $scope.username, "password": $scope.password};
+
+            if($scope.username!==undefined || $scope.password !==undefined){
+                $http({method: 'POST', url: '/api/login', data:user}).
+                    success(function(data, status, headers, config) {
+                        console.log(data);
+                        $window.location.href="/home";
+                    }).
+                    error(function(data, status, headers, config) {
+                        console.log(data);
+                        noty({text: data,  timeout: 2000, type: 'error'});
+                    });
+            }
+
+        }
+    }
+]);
+
+
+
+/*
+
 
 
 function RegistrationCtrl($scope,$http) {
@@ -74,3 +83,4 @@ function RegistrationCtrl($scope,$http) {
     }
 }
 RegistrationCtrl.$inject = ["$scope","$http"];
+*/

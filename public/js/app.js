@@ -1,6 +1,29 @@
 'use strict';
 
-// Declare app level module which depends on filters, and services
+var mainApp = angular.module('mainApp', [
+    'ngRoute',
+    'mainAppControllers'
+]);
+
+mainApp.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+            when('/login', {
+                templateUrl: 'partial/login',
+                controller: 'LoginCtrl'
+            }).
+            when('/register', {
+                templateUrl: 'partial/register',
+                controller: 'RegistrationCtrl'
+            }).
+            otherwise({
+                redirectTo: '/login'
+            });
+    }
+]);
+
+
+/*
 angular.module('fantacalcio', ['ui.router','myApp.filters', 'myApp.services', 'myApp.directives']).
  config(['$stateProvider','$urlRouterProvider','$locationProvider', function($stateProvider, $urlRouterProvider) {
 
@@ -18,20 +41,9 @@ angular.module('fantacalcio', ['ui.router','myApp.filters', 'myApp.services', 'm
                 controller : RegistrationCtrl
             })
  }]);
+*/
 
 
-// Declare app level module which depends on filters, and services
-angular.module('fantacalcio-app', ['ui.router','myApp.filters', 'myApp.services', 'myApp.directives']).
-    config(['$stateProvider','$urlRouterProvider','$locationProvider', function($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise("/home")
 
-        $stateProvider
-            .state('home',{
-                url:'/home',
-                templateUrl : 'partial/home',
-                controller : WebAppCtrl
-            })
-
-    }]);
 
