@@ -1,26 +1,7 @@
 'use strict';
+/* main App Controllers */
 
 var mainAppControllers = angular.module('mainAppControllers', []);
-
-/* Controllers */
-
-mainAppControllers.controller('WebAppCtrl', ['$scope', '$http','$window','$location',
-    function ($scope, $http) {
-
-        $scope.logout = function()
-        {
-            $http({method: 'DELETE', url: '/api/logout'}).
-                success(function(data, status, headers, config) {
-                    console.log("logout!");
-                    $window.location.href="/";
-                }).
-                error(function(data, status, headers, config) {
-                    console.log(data);
-                });
-        }
-    }
-]);
-
 
 mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location',
     function ($scope, $http) {
@@ -45,6 +26,28 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
             }
 
         }
+    }
+]);
+
+
+mainAppControllers.controller('RegistrationCtrl', ['$scope', '$http','$window','$location',
+    function ($scope, $http) {
+
+
+    }
+]);
+
+
+/* web App Controllers */
+
+
+var webAppControllers = angular.module('webAppControllers', []);
+
+
+webAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$location',
+    function ($scope, $http) {
+
+
     }
 ]);
 

@@ -1,17 +1,17 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
-        <form class="form-inline" role="form">
+        <form class="form-inline" role="form" method="POST" action="/api/login">
             <fieldset>
                 <legend>Login</legend>
                 <div class="form-group">
-                    <input type="text" class="form-control" ng-model="username" placeholder="Type your username..." required>
+                    <input type="text" class="form-control" name="username" placeholder="Type your username..." required>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" ng-model="password" placeholder="Type your password..." required>
+                    <input type="password" class="form-control" name="password" placeholder="Type your password..." required>
                 </div>
 
-                <button class="btn btn-primary" ng-click="login()">Login</button>
+                <button class="btn btn-primary">Login</button>
             </fieldset>
         </form>
 
