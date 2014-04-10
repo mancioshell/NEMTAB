@@ -39,30 +39,3 @@ webApp.config(['$routeProvider',
             });
     }
 ]);
-
-
-
-/*
-angular.module('fantacalcio', ['ui.router','myApp.filters', 'myApp.services', 'myApp.directives']).
- config(['$stateProvider','$urlRouterProvider','$locationProvider', function($stateProvider, $urlRouterProvider) {
-
-        $urlRouterProvider.otherwise("/login")
-
-        $stateProvider
-            .state('login',{
-                url:'/login',
-                templateUrl : 'partial/login',
-                controller : LoginCtrl
-            })
-            .state('register',{
-                url:'/register',
-                templateUrl : 'partial/register',
-                controller : RegistrationCtrl
-            })
- }]);
-*/
-
-
-
-
-

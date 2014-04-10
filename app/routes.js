@@ -20,14 +20,14 @@ module.exports = function(app, passport) {
 
     app.post('/api/login', passport.authenticate('local-login', {
         successRedirect : '/home', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
 
     // process the signup form
     app.post('/api/signup', passport.authenticate('local-signup', {
-        successRedirect : '/signup', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        successRedirect : '/', // redirect to the secure profile section
+        failureRedirect : '/#/register', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
 

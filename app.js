@@ -12,7 +12,9 @@ var path = path = require('path');
 
 var vhost = 'nodejschat.local'
 
-require('./config/passport')(passport); // pass passport for configuration
+var connection = require('./config/database')(mongoose);
+require('./config/passport')(passport,connection); // pass passport for configuration
+
 
 app.configure(function() {
 
@@ -55,50 +57,3 @@ express.vhost(vhost, app);
 var server = http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + vhost+":"+server.address().port);
 });
-
-
-
-
-
-
-
-/*var express = require('express'),
-    routes = require('./routes'),
-    api = require('./routes/api'),
-    http = require('http'),
-    path = require('path')
-
-
-function restrict(req, res, next) {
-    if (req.session.loggedIn) {
-        console.log("Session OK!");
-        next();
-    } else {
-        req.session.error = 'Access denied!';
-        console.log("Access denied!");
-        res.redirect(301,'/');
-
-        res.send();
-    }
-}
-
-
-
-*/
-
-/*
-// Routes
-app.get('/', routes.index);
-app.get('/home', restrict,routes.webapp);
-app.get('/partial/:name', routes.partial);
-
-// JSON API
-app.post('/api/register', api.register);
-app.post('/api/login', api.login);
-app.delete('/api/logout', restrict,api.logout);
-
-
-// redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
-
-*/
