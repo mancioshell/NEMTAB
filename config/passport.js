@@ -1,7 +1,7 @@
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
 
-module.exports = function(passport,connection) {
+module.exports = function(passport,jwt,connection) {
 
     var User = require('../models/user')(connection)
 
@@ -37,7 +37,7 @@ module.exports = function(passport,connection) {
                 if (!user){
                     console.log("Username non trovato");
                     //return done(null, false, req.flash('loginMessage', 'No user found.'));
-                    return done(null, false);
+                    return done(null, false, req.flash('loginError', 'Username non trovato.'));
                 }
 
                 // all is well, return successful user

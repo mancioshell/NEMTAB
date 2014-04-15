@@ -5,15 +5,19 @@ var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 3000;
 var mongoose = require('mongoose');
-var passport = require('passport');
-//var flash    = require('connect-flash');
+//var passport = require('passport');
+var flash    = require('connect-flash');
 var http = require('http');
 var path = path = require('path');
+
+
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
 
 var vhost = 'nodejschat.local'
 
 var connection = require('./config/database')(mongoose);
-require('./config/passport')(passport,connection); // pass passport for configuration
+//require('./config/passport')(passport,jwt,connection); // pass passport for configuration
 
 
 app.configure(function() {
@@ -30,17 +34,22 @@ app.configure(function() {
     app.use(express.static(path.join(__dirname, 'public')));
 
     // required for passport
-    app.use(express.cookieSession({key:"myKey",secret:"mySecret"}));
+    //app.use(express.cookieSession({key:"myKey",secret:"mySecret"}));
     app.use(express.methodOverride());
-    app.use(passport.initialize());
-    app.use(passport.session()); // persistent login sessions
-    //app.use(flash()); // use connect-flash for flash messages stored in session
+    //app.use(passport.initialize());
+    app.use('/restricted', expressJwt({secret: 'changeme'}));
+    //app.use(passport.session()); // persistent login sessions
+
+    app.use(express.json());
+    app.use(express.urlencoded());
+
+    app.use(flash()); // use connect-flash for flash messages stored in session
 
     app.use(app.router);
 
 });
 
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app, jwt, connection); // load our routes and pass in our app and fully configured passport
 
 // development only
 if (app.get('env') === 'development') {
