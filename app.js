@@ -37,7 +37,7 @@ app.configure(function() {
     //app.use(express.cookieSession({key:"myKey",secret:"mySecret"}));
     app.use(express.methodOverride());
     //app.use(passport.initialize());
-    app.use('/restricted', expressJwt({secret: 'changeme'}));
+    app.use('/auth', expressJwt({secret: 'changeme'}));
     //app.use(passport.session()); // persistent login sessions
 
     app.use(express.json());

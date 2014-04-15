@@ -6,7 +6,7 @@ module.exports = function(app, jwt, connection) {
         res.render('index');
     });
 
-    app.get('/restricted/home',function(req, res){
+    app.get('/auth/home',function(req, res){
         res.render('webapp');
     });
 
@@ -39,7 +39,7 @@ module.exports = function(app, jwt, connection) {
                 res.end();
             }else{
                 // We are sending the profile inside the token
-                var token = jwt.sign(user, 'changeme', { expiresInMinutes: 60*5 });
+                var token = jwt.sign(user, 'changdeme', { expiresInMinutes: 60*5 });
                 res.json({ token: token });
                 res.end();
             }

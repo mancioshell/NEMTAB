@@ -18,7 +18,7 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
                         console.log(data);
                         $window.sessionStorage.token = data.token;
                         console.log($window.sessionStorage);
-                        $window.location.href="/restricted/home";
+                        //$window.location.href="/restricted/home";
                     }).
                     error(function(data, status, headers, config) {
                         console.log(data);
