@@ -1,6 +1,9 @@
-module.exports = function(app, jwt, connection) {
+module.exports = function(app, uuid, connection) {
 
-    var User = require('../models/user')(connection)
+    var model = require('../models/user');
+    var m = new model(connection);
+    var User = m.user;
+    var Token = m.token;
 
     app.get('/', function(req, res){
         res.render('index');
@@ -25,7 +28,9 @@ module.exports = function(app, jwt, connection) {
 
         User.findOne({ username: body.username,
             password: body.password
-        },function (err, user) {
+        })
+        .populate('auth_token')
+        .exec(function (err, user) {
 
             if (err){
                 console.log(err);
@@ -38,8 +43,17 @@ module.exports = function(app, jwt, connection) {
                 res.send(401, 'Wrong user or password');
                 res.end();
             }else{
-                // We are sending the profile inside the token
-                var token = jwt.sign(user, 'changdeme', { expiresInMinutes: 60*5 });
+
+                if(user.auth_token!==undefined && user.auth_token!==null){
+                    var token = user.auth_token.token;
+                }else{
+                    var token = uuid.v4();
+                    var newToken = new Token({ token: token});
+                    newToken.save();
+                    user.auth_token = newToken;
+                    user.save();
+                }
+
                 res.json({ token: token });
                 res.end();
             }
@@ -67,7 +81,7 @@ module.exports = function(app, jwt, connection) {
                 res.send(403, 'Username already exist!');
                 res.end();
             }else {
-                var newUser = new User({ username: body.username,password:body.password})
+                var newUser = new User({ username: body.username,password:body.password,auth_token:null})
                 newUser.save(function (err, user) {
                     if (err){
                         res.send(500, 'Internal Server Error');

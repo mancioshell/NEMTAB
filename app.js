@@ -10,9 +10,7 @@ var flash    = require('connect-flash');
 var http = require('http');
 var path = path = require('path');
 
-
-var expressJwt = require('express-jwt');
-var jwt = require('jsonwebtoken');
+var uuid = require('node-uuid');
 
 var vhost = 'nodejschat.local'
 
@@ -37,7 +35,7 @@ app.configure(function() {
     //app.use(express.cookieSession({key:"myKey",secret:"mySecret"}));
     app.use(express.methodOverride());
     //app.use(passport.initialize());
-    app.use('/auth', expressJwt({secret: 'changeme'}));
+    //app.use('/auth', expressJwt({secret: 'changeme'}));
     //app.use(passport.session()); // persistent login sessions
 
     app.use(express.json());
@@ -49,7 +47,7 @@ app.configure(function() {
 
 });
 
-require('./app/routes.js')(app, jwt, connection); // load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app, uuid, connection); // load our routes and pass in our app and fully configured passport
 
 // development only
 if (app.get('env') === 'development') {
