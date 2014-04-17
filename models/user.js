@@ -4,13 +4,13 @@ var Model = function(connection) {
 
     var tokenSchema = new mongoose.Schema({
         token: String,
-        created_at: { type: Date, expires: '1.5m' }
+        created_at: { type: Date, expires: 60 },
+        user : {type: mongoose.Schema.Types.ObjectId, ref: 'Token'}
     });
 
     var userSchema = new mongoose.Schema({
         username: String,
-        password: String,
-        auth_token: {type: mongoose.Schema.Types.ObjectId, ref: 'Token'}
+        password: String
     });
 
     this.token = connection.model('Token', tokenSchema);

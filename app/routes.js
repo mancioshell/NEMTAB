@@ -23,14 +23,33 @@ module.exports = function(app, uuid, connection) {
         res.render('partials/' + name);
     });
 
+    app.post('/update',function(req, res) {
+        var body = req.body;
+        console.log(body.auth_token);
+        Token.findOne({token: body.auth_token},function(err, token){
+
+            if(err){
+                res.send(500, 'Internal Server Error');
+                res.end();
+            }
+
+            if(!token){
+                res.send(403, 'Forbidden');
+                res.end();
+            }
+
+            token.update({ created_at : new Date },function(err,rr){
+                console.log(err,rr)
+            });
+
+        });
+
+    });
+
     app.post('/authenticate',function(req, res) {
         var body = req.body;
 
-        User.findOne({ username: body.username,
-            password: body.password
-        })
-        .populate('auth_token')
-        .exec(function (err, user) {
+        User.findOne({username: body.username, password: body.password},function (err, user) {
 
             if (err){
                 console.log(err);
@@ -39,23 +58,50 @@ module.exports = function(app, uuid, connection) {
             }
 
             if (!user){
+                console.log(token);
+
                 console.log("Username non trovato");
                 res.send(401, 'Wrong user or password');
                 res.end();
             }else{
 
-                if(user.auth_token!==undefined && user.auth_token!==null){
-                    var token = user.auth_token.token;
-                }else{
-                    var token = uuid.v4();
-                    var newToken = new Token({ token: token});
-                    newToken.save();
-                    user.auth_token = newToken;
-                    user.save();
-                }
+                Token.findOne({ })
+                    .populate({
+                        path: 'user',
+                        match: { username: body.username, password: body.password}
+                    }).exec(function (err, token){
+                        console.log(token)
 
-                res.json({ token: token });
-                res.end();
+                        if (err){
+                            console.log(err);
+                            res.send(500, 'Internal Server Error');
+                            res.end();
+                        }
+
+                        if (!token){
+                            var tokenString = uuid.v4();
+
+                            var newToken = new Token({ token: tokenString,
+                                created_at : new Date,
+                                user : user
+                            });
+
+                            newToken.save(function (err, user) {
+                                if(err){
+                                    console.log(err)
+                                    res.send(500, 'Internal Server Error');
+                                    res.end();
+                                }
+                            });
+
+                        }else{
+                            var tokenString = token.token;
+                        }
+                        res.json({ token: tokenString });
+                        res.end();
+
+                    });
+
             }
 
         });

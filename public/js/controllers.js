@@ -29,6 +29,21 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
             }
 
         }
+
+        $scope.update = function(){
+
+            var data = {"auth_token":$window.sessionStorage.token}
+
+            $http({method: 'POST', url: '/update', data:data}).
+                success(function(data, status, headers, config) {
+                    console.log(data);
+
+                }).
+                error(function(data, status, headers, config) {
+                    console.log(data);
+                });
+        }
+
     }
 ]);
 
