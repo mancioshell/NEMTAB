@@ -58,49 +58,28 @@ module.exports = function(app, uuid, connection) {
             }
 
             if (!user){
-                console.log(token);
-
                 console.log("Username non trovato");
                 res.send(401, 'Wrong user or password');
                 res.end();
+
             }else{
 
-                Token.findOne({ })
-                    .populate({
-                        path: 'user',
-                        match: { username: body.username, password: body.password}
-                    }).exec(function (err, token){
-                        console.log(token)
+                if(user.auth_token.value===null || new Date(user.auth_token.created_at.getTime()+1000*60*60*9) > new Date(Date.now())){
+                    var tokenString = uuid.v4();
 
-                        if (err){
-                            console.log(err);
-                            res.send(500, 'Internal Server Error');
-                            res.end();
-                        }
+                    var auth_token = {"value" :tokenString, created_at: new Date};
 
-                        if (!token){
-                            var tokenString = uuid.v4();
-
-                            var newToken = new Token({ token: tokenString,
-                                created_at : new Date,
-                                user : user
-                            });
-
-                            newToken.save(function (err, user) {
-                                if(err){
-                                    console.log(err)
-                                    res.send(500, 'Internal Server Error');
-                                    res.end();
-                                }
-                            });
-
-                        }else{
-                            var tokenString = token.token;
-                        }
-                        res.json({ token: tokenString });
-                        res.end();
-
+                    User.update({ _id: user._id }, {  auth_token: auth_token }, function(err, numberAffected, rawResponse){
+                        if(err)
+                            res.end(500, 'Internal Server Error');
                     });
+
+                }else{
+                    var tokenString = user.auth_token.value;
+                }
+
+                res.send({'token':tokenString});
+                res.end();
 
             }
 
@@ -127,7 +106,7 @@ module.exports = function(app, uuid, connection) {
                 res.send(403, 'Username already exist!');
                 res.end();
             }else {
-                var newUser = new User({ username: body.username,password:body.password,auth_token:null})
+                var newUser = new User({ username: body.username,password:body.password})
                 newUser.save(function (err, user) {
                     if (err){
                         res.send(500, 'Internal Server Error');

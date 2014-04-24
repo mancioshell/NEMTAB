@@ -3,8 +3,18 @@
 
 var mainAppControllers = angular.module('mainAppControllers', []);
 
-mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location',
-    function ($scope, $http,$window) {
+mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location', "cryptoJSService",
+    function ($scope, $http,$window,cryptoJSService) {
+
+        console.log(cryptoJSService.cryptoJS);
+        //var cryptoJS = new CryptoJSService();
+        //console.log(cryptoJS.cryptoJS);
+
+        //var key512Bits1000Iterations = CryptoJSService.PBKDF2("Secret Passphrase", 'salt', { keySize: 512/32, iterations: 1000 });
+
+        //console.log(key512Bits1000Iterations);
+
+        console.log("xd");
 
         $scope.failed_login = "";
 

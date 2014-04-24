@@ -9,6 +9,7 @@
         "mongoose" : "*",
         "passport" : "*",
         "passport-local" : "*",
-        "connect-flash" : "*"
+        "connect-flash" : "*",
+        "cryptojs" : "*"
 	}
 }

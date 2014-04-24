@@ -6,7 +6,8 @@
     "angular-route": "~1.2.16",
     "noty": "~2.2.2",
     "jquery": "~2.1.0",
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "cryptojs" : "*"
   },
   "private": true,
   "ignore": [
