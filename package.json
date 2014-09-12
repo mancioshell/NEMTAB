@@ -7,8 +7,10 @@
         "ejs": "~0.7.1",
         "mongodb" : "*",
         "mongoose" : "*",
+        "mongoose-q":"*",
         "passport" : "*",
         "passport-local" : "*",
+        "passport-http-bearer" : "*",
         "connect-flash" : "*",
         "cryptojs" : "*"
 	}

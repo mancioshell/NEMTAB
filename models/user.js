@@ -1,22 +1,20 @@
 var mongoose = require('mongoose');
 
-var Model = function(connection) {
+module.exports = function(connection) {
 
-    var userSchema = new mongoose.Schema({
+    var Schema = mongoose.Schema;
+
+    var userSchema = new Schema({
         username: String,
         password: String,
-        auth_token : {
-            created_at : {type: Date, default: null},
-            value : {type: String, default: null}
-        }
-
+        email: String,
+        auth_token: String
     });
 
-    this.user = connection.model('User', userSchema);
+    var User = connection.model('User', userSchema);
 
+    return User;
 }
-
-module.exports = Model;
 
 
 

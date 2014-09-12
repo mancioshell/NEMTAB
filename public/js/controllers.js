@@ -3,8 +3,8 @@
 
 var mainAppControllers = angular.module('mainAppControllers', []);
 
-mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location', "cryptoJSService",
-    function ($scope, $http,$window,cryptoJSService) {
+mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location', "cryptoJSService",'localStorageService',
+    function ($scope, $http,$window,$location,cryptoJSService,localStorageService) {
 
         console.log(cryptoJSService.cryptoJS);
         //var cryptoJS = new CryptoJSService();
@@ -14,8 +14,6 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
 
         //console.log(key512Bits1000Iterations);
 
-        console.log("xd");
-
         $scope.failed_login = "";
 
         $scope.submit = function()
@@ -23,12 +21,14 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
             var user = {"username": $scope.username, "password": $scope.password};
 
             if($scope.username!==undefined || $scope.password !==undefined){
-                $http({method: 'POST', url: '/authenticate', data:user}).
+                $http({method: 'POST', url: '/api/login', data:user}).
                     success(function(data, status, headers, config) {
                         console.log(data);
-                        $window.sessionStorage.token = data.token;
-                        console.log($window.sessionStorage);
-                        //$window.location.href="/restricted/home";
+
+                        localStorageService.set("auth_token",data.auth_token);
+                        console.log(localStorageService.get("auth_token"));
+
+                        $window.location.href="/home";
                     }).
                     error(function(data, status, headers, config) {
                         console.log(data);
@@ -38,20 +38,6 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
                 noty({text: 'Username and password are mandatory!',  timeout: 2000, type: 'error'});
             }
 
-        }
-
-        $scope.update = function(){
-
-            var data = {"auth_token":$window.sessionStorage.token}
-
-            $http({method: 'POST', url: '/update', data:data}).
-                success(function(data, status, headers, config) {
-                    console.log(data);
-
-                }).
-                error(function(data, status, headers, config) {
-                    console.log(data);
-                });
         }
 
     }

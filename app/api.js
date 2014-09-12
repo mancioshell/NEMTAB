@@ -1,92 +1,53 @@
-/*
- * Serve JSON to our AngularJS client
- */
-var mongoose = require('mongoose');
-var dbURI = 'mongodb://localhost:27017/fantacalcio';
-var connection = mongoose.createConnection(dbURI,{ server: { poolSize: 5 } });
+module.exports = function(models){
 
-var usersSchema = require('../models/users');
-var Users = connection.model('Users', usersSchema);
+    var User = models.user;
 
+    return {
 
-// CONNECTION EVENTS
-// When successfully connected
-connection.on('connected', function () {
-    console.log('Mongoose connection open to ' + dbURI);
-});
+        signup: function (req,res)
+        {
 
-// If the connection throws an error
-connection.on('error',function (err) {
-    console.log('Mongoose default connection error: ' + err);
-});
+            var body = req.body;
 
-// When the connection is disconnected
-connection.on('disconnected', function () {
-    console.log('Mongoose default connection disconnected');
-});
-
-// If the Node process ends, close the Mongoose connection
-process.on('SIGINT', function() {
-    connection.close(function () {
-        console.log('Mongoose default connection disconnected through app termination');
-        process.exit(0);
-    });
-});
-
-
-
-exports.register = function(req,res){
-
-    var body = req.body;
-
-    Users.findOne({ name: body.username}, function (err, findUser) {
-        if(findUser==null){
-            var user = new Users({ name: body.username,
-                password:body.password, leagues: [] })
-            user.save(function (err, user) {
+            User.findOne({ username: body.username
+            },function(err, user) {
                 if (err)
-                    console.log(err)
-
-                res.end()
+                    res.send(500, {'message': err});
+                // check to see if theres already a user with that email
+                if (user) {
+                    res.send(403, {'message': 'User already exist!'});
+                }else {
+                    var newUser = new User({ username: body.username,email: body.email, password:body.password})
+                    newUser.save(function (err, user) {
+                        if (err){
+                            res.send(500, {'message': err});
+                        }
+                        res.json({ 'message': 'User was successfully registered!'});
+                    });
+                }
             });
-        }else{
-            res.send(403, 'Username already in use');
+        },
+
+        login:function(req,res)
+        {
+            res.json({ auth_token: req.user.auth_token});
+        },
+
+        logout: function(req,res)
+        {
+            req.user.auth_token = null;
+            req.user.save(function(err,user){
+                if (err){
+                    res.send(500, {'message': err});
+                }
+                res.json({ message: 'See you!'});
+            });
         }
-    });
 
-};
 
-exports.login = function(req,res){
+    }
 
-    var body = req.body;
+}
 
-    Users.findOne({ name: body.username,
-        password: body.password},function (err, users) {
 
-        if (err){
-            console.log(err)
-            res.send(500, 'Internal Server Error');
-        }
-
-        if(users!=null){
-            req.session.loggedIn = true;
-            req.session.user = body.username;
-            console.log("Find ok...")
-            console.log(users)
-            res.json({
-                users : users
-            })
-        }else{
-            console.log("Find ERROR...")
-            res.send(401, 'Username or password is invalid');
-        }
-    });
-
-};
-
-exports.logout = function(req,res){
-    req.session.loggedIn = false;
-    req.session= null;
-    res.end()
-};
 
