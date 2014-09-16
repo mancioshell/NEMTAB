@@ -7,40 +7,30 @@ var mainApp = angular.module('mainApp', [
     'mainAppControllers'
 ]);
 
-mainApp.factory('sessionInjector', ['localStorageService', function(localStorageService) {
-    var sessionInjector = {
-        request: function(config) {
 
-            if(localStorageService.get("auth_token")!=null)
-                config.headers['authorization'] = 'Bearer '+localStorageService.get("auth_token");
+mainApp.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('TokenInterceptor');
+});
 
-            return config;
-        }
-    };
-    return sessionInjector;
-}]);
 
 mainApp.config(['$routeProvider','$httpProvider',
     function($routeProvider,$httpProvider) {
 
-
-        //var auth_token = localStorageServiceProvider.get("auth_token");
-
-        //$httpProvider.defaults.headers.common.Authorization = 'Bearer '+auth_token;
-
-        //$httpProvider.defaults.headers.common['X-CSRFToken'] = "Ciccio";
-
-        $httpProvider.interceptors.push('sessionInjector');
-
-
         $routeProvider.
             when('/login', {
-                templateUrl: 'partial/login',
-                controller: 'LoginCtrl'
+                templateUrl: 'partials/login',
+                controller: 'LoginCtrl',
+                access: { requiredLogin: false }
             }).
             when('/register', {
-                templateUrl: 'partial/register',
-                controller: 'RegistrationCtrl'
+                templateUrl: 'partials/register',
+                controller: 'RegistrationCtrl',
+                access: { requiredLogin: false }
+            }).
+            when('/home', {
+                templateUrl: 'partials/home',
+                controller: 'HomeCtrl',
+                access: { requiredLogin: true }
             }).
             otherwise({
                 redirectTo: '/login'
@@ -49,37 +39,17 @@ mainApp.config(['$routeProvider','$httpProvider',
 
 ]);
 
-/*mainApp.config(['$httpProvider', function($httpProvider) {
 
-    $httpProvider.interceptors.push(function($q) {
-        return {
-            'request': function(config) {
-                // same as above
-            },
+mainApp.run(function($rootScope, $location, AuthenticationService) {
+    $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
 
-            'response': function(response) {
-                // same as above
-            }
-        };
+        if (nextRoute.access.requiredLogin && !AuthenticationService.isLogged()) {
+            $location.path("/login");
+        }
+
+        if (AuthenticationService.isLogged() && !nextRoute.access.requiredLogin) {
+            $location.path("/home");
+        }
     });
+});
 
-
-}]);*/
-
-var webApp = angular.module('webApp', [
-    'ngRoute',
-    'webAppControllers'
-]);
-
-webApp.config(['$routeProvider',
-    function($routeProvider) {
-        $routeProvider.
-            when('/main', {
-                templateUrl: 'partial/auth/home',
-                controller: 'HomeCtrl'
-            }).
-            otherwise({
-                redirectTo: '/main'
-            });
-    }
-]);

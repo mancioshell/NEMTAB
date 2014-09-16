@@ -1,0 +1,185 @@
+<div ng-include src="'partials/nav.html'"></div>
+
+<div class="container-fluid">
+
+    <div ng-include src="'partials/header.html'"></div>
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-info">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Your First Panel</div>
+
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th width="30%">Column 1</th>
+                                        <th width="30%">Column 2</th>
+                                        <th width="20%"><span class="glyphicon glyphicon-pencil"></span></th>
+                                        <th width="20%"><span class="glyphicon glyphicon-trash"></span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="thing in things">
+                                        <td>{{thing.name}}</td>
+                                        <td>{{thing.size}}</td>
+                                        <td>
+                                            <a type="button" class="btn btn-primary btn-sm" href="{{thing._id}}">
+                                                <span class="glyphicon glyphicon-pencil"></span> Manage
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button type="button" ng-click="" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-success">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Your Second Panel</div>
+
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th width="30%">Column 1</th>
+                                        <th width="30%">Column 2</th>
+                                        <th width="20%"><span class="glyphicon glyphicon-pencil"></span></th>
+                                        <th width="20%"><span class="glyphicon glyphicon-trash"></span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="person in people">
+                                        <td>{{person.name}}</td>
+                                        <td>{{person.years}}</td>
+                                        <td>
+                                            <a type="button" class="btn btn-primary btn-sm" href="{{thing._id}}">
+                                                <span class="glyphicon glyphicon-pencil"></span> Manage
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button type="button" ng-click="delete_team(team)" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    </br>
+
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Create Thing</h3>
+                                </div>
+                                <div class="panel-body">
+                                    Here you can create your thing!
+                                    </br></br>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="" class="btn btn-default btn-lg col-md-offset-3">
+                                                <span class="glyphicon glyphicon-book"></span> Create!
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Create Thing</h3>
+                                </div>
+                                <div class="panel-body">
+                                    Here you can create your thing!
+                                    </br></br>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="" class="btn btn-default btn-lg col-md-offset-3">
+                                                <span class="glyphicon glyphicon-bookmark"></span> Found!
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Join Set</h3>
+                                </div>
+                                <div class="panel-body">
+                                    Here you can join existing set!
+                                    </br></br>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="" type="button" class="btn btn-default btn-lg col-md-offset-3">
+                                                <span class="glyphicon glyphicon-arrow-right"></span> Join!
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <hr/>
+    <div>Angular seed app: v<span app-version="app-version"></span></div>
+
+</div>
+
+
+
+
+
+
+

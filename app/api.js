@@ -42,6 +42,18 @@ module.exports = function(models){
                 }
                 res.json({ message: 'See you!'});
             });
+        },
+        getPeople: function(req,res)
+        {
+
+            res.json({people: [{name:'person1',years:3},{name:'person2',years:5},{name:'person3',years:1}] });
+
+        },
+        getThings: function(req,res)
+        {
+
+            res.json({ things: [{name:'prova',size:3},{name:'prova2',size:5},{name:'prova3',size:1}]});
+
         }
 
 

@@ -3,16 +3,24 @@
 
 var mainAppControllers = angular.module('mainAppControllers', []);
 
+mainAppControllers.controller('NavCtrl', ['$scope', '$http','$window','$location','localStorageService','AuthenticationService',
+    function ($scope, $http,$window,$location,localStorageService,AuthenticationService) {
+
+
+        $scope.isAuthenticated = AuthenticationService.isLogged()
+
+        $scope.logout = function()
+        {
+            localStorageService.clearAll();
+            $location.path("/login");
+        }
+    }
+]);
+
 mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location', "cryptoJSService",'localStorageService',
     function ($scope, $http,$window,$location,cryptoJSService,localStorageService) {
 
         console.log(cryptoJSService.cryptoJS);
-        //var cryptoJS = new CryptoJSService();
-        //console.log(cryptoJS.cryptoJS);
-
-        //var key512Bits1000Iterations = CryptoJSService.PBKDF2("Secret Passphrase", 'salt', { keySize: 512/32, iterations: 1000 });
-
-        //console.log(key512Bits1000Iterations);
 
         $scope.failed_login = "";
 
@@ -23,12 +31,10 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
             if($scope.username!==undefined || $scope.password !==undefined){
                 $http({method: 'POST', url: '/api/login', data:user}).
                     success(function(data, status, headers, config) {
-                        console.log(data);
 
                         localStorageService.set("auth_token",data.auth_token);
-                        console.log(localStorageService.get("auth_token"));
+                        $location.path("/home");
 
-                        $window.location.href="/home";
                     }).
                     error(function(data, status, headers, config) {
                         console.log(data);
@@ -77,15 +83,32 @@ mainAppControllers.controller('RegistrationCtrl', ['$scope', '$http','$window','
 ]);
 
 
-/* web App Controllers */
 
+mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$location','localStorageService','AuthenticationService',
+    function ($scope, $http,$window,$location,localStorageService,AuthenticationService) {
 
-var webAppControllers = angular.module('webAppControllers', []);
+        $http({method: 'GET', url: '/api/things'}).
+            success(function(data, status, headers, config) {
+                $scope.things = data.things;
+            }).
+            error(function(data, status, headers, config) {
+                console.log(data);
+                noty({text: data,  timeout: 2000, type: 'error'});
+            });
 
-
-webAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$location',
-    function ($scope, $http) {
+        $http({method: 'GET', url: '/api/people'}).
+            success(function(data, status, headers, config) {
+                $scope.people = data.people;
+            }).
+            error(function(data, status, headers, config) {
+                console.log(data);
+                noty({text: data,  timeout: 2000, type: 'error'});
+            });
 
 
     }
 ]);
+
+
+
+

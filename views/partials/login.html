@@ -1,29 +1,37 @@
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
+<div ng-include src="'partials/nav.html'"></div>
 
-        <form ng-submit="submit()" role="form" class="form-inline">
-            <fieldset>
-                <legend>Login</legend>
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="username" placeholder="Type your username..." required>
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" ng-model="password" placeholder="Type your password..." required>
-                </div>
-                <input type="submit" class="btn btn-primary" value="Login"/>
-            </fieldset>
-        </form>
+<div class="container-fluid">
+
+    <div ng-include src="'partials/header.html'"></div>
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <form ng-submit="submit()" role="form" class="form-inline">
+                <fieldset>
+                    <legend>Login</legend>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="username" placeholder="Type your username..." required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" ng-model="password" placeholder="Type your password..." required>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Login"/>
+                </fieldset>
+            </form>
+
+        </div>
 
     </div>
 
-</div>
+    </br>
 
-</br>
-
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <div ng-show="failed_login" class="alert alert-danger">
-            <span class="glyphicon glyphicon-star"></span> {{failed_login}}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div ng-show="failed_login" class="alert alert-danger">
+                <span class="glyphicon glyphicon-star"></span> {{failed_login}}
+            </div>
         </div>
     </div>
+
 </div>

@@ -4,50 +4,43 @@
 
 var myAppServices = angular.module('myAppServices', []);
 
+myAppServices.service('TokenInterceptor',
+    function ($q, $window, localStorageService)
+    {
+        return {
+            request: function (config) {
+                config.headers = config.headers || {};
+
+                if(localStorageService.get("auth_token")!==null)
+                    config.headers.Authorization = 'Bearer '+localStorageService.get("auth_token");
+
+                return config;
+            },
+
+            response: function (response) {
+                return response || $q.when(response);
+            }
+        };
+});
+
 myAppServices.service('cryptoJSService',function(){
     console.log(CryptoJS)
     this.cryptoJS = CryptoJS;
 })
 
-
-/*myAppServices.service('myHttpInterceptor', function($q,localStorageService) {
+myAppServices.service('AuthenticationService',function(localStorageService){
     return {
-        // optional method
-        'request': function(config) {
-            // do something on success
-            return config;
-        },
+        isLogged: function()
+        {
+            var authenticated = false;
+            if(localStorageService.get("auth_token")!==null)
+                authenticated = true;
 
-        // optional method
-        'requestError': function(rejection) {
-            // do something on error
-
-            return $q.reject(rejection);
-        },
-
-
-
-        // optional method
-        'response': function(response) {
-            // do something on success
-            console.log(localStorageService);
-            console.log(localStorageService.get("auth_token"));
-            console.log(response);
-            //$http.defaults.headers.common.Authorization = 'Bearer '+response.data.auth_token;
-            return response;
-        },
-
-        // optional method
-        'responseError': function(rejection) {
-            // do something on error
-            console.log(localStorageService);
-            console.log(localStorageService.get("auth_token"));
-
-
-            return $q.reject(rejection);
+            return authenticated;
         }
-    };
-});*/
+    }
+})
+
 
 
 
