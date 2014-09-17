@@ -1,0 +1,227 @@
+<div ng-include src="'partials/nav.html'"></div>
+<div ng-include src="'partials/header.html'"></div>
+
+<div class="container-fluid">
+
+
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-info">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Things</div>
+
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" width="30%">Name</th>
+                                        <th class="text-center" width="30%">Size</th>
+                                        <th class="text-center" width="20%"><span class="glyphicon glyphicon-pencil"></span></th>
+                                        <th class="text-center" width="20%"><span class="glyphicon glyphicon-trash"></span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="thing in things">
+                                        <td class="text-center" ng-hide="thing.modify">{{thing.name}}</td>
+                                        <td class="text-center" ng-hide="thing.modify">{{thing.size}}</td>
+                                        <td class="text-center" ng-hide="thing.modify">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="updateThing($index,true)">
+                                                <span class="glyphicon glyphicon-pencil"></span> Modify
+                                            </button>
+                                        </td>
+                                        <td class="text-center" ng-hide="thing.modify">
+                                            <button type="button" ng-click="deleteThing($index)" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </td>
+
+
+                                        <td class="text-center" ng-show="thing.modify">
+                                            <input type="text" class="form-control" ng-model="thing.name" placeholder="thing.name" required>
+                                        </td>
+                                        <td class="text-center" ng-show="thing.modify">
+                                            <input type="number" class="form-control" ng-model="thing.size" placeholder="thing.size" required>
+                                        </td>
+                                        <td class="text-center" ng-show="thing.modify">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="updateThing($index,false)">
+                                                <span class="glyphicon glyphicon-pencil"></span> Update
+                                            </button>
+                                        </td>
+                                        <td class="text-center" ng-show="thing.modify">
+                                            <button ng-disabled="true" type="button" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-success">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">People</div>
+
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" width="30%">Name</th>
+                                        <th class="text-center" width="30%">Age</th>
+                                        <th class="text-center" width="20%"><span class="glyphicon glyphicon-pencil"></span></th>
+                                        <th class="text-center" width="20%"><span class="glyphicon glyphicon-trash"></span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr ng-repeat="person in people">
+
+                                        <td class="text-center" ng-hide="person.modify">{{person.name}}</td>
+                                        <td class="text-center" ng-hide="person.modify">{{person.age}}</td>
+                                        <td class="text-center" ng-hide="person.modify">
+                                            <button type="button" ng-click="updatePerson($index,true)" class="btn btn-primary btn-sm">
+                                                <span class="glyphicon glyphicon-pencil"></span> Modify
+                                            </button>
+                                        </td>
+                                        <td class="text-center" ng-hide="person.modify">
+                                            <button type="button" ng-click="deletePerson($index)" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </td>
+
+                                        <td class="text-center" ng-show="person.modify">
+                                            <input type="text" class="form-control" ng-model="person.name" placeholder="person.name" required>
+                                        </td>
+                                        <td class="text-center" ng-show="person.modify">
+                                            <input type="number" class="form-control" ng-model="person.age" placeholder="person.age" required>
+                                        </td>
+                                        <td class="text-center" ng-show="person.modify">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="updatePerson($index,false)">
+                                                <span class="glyphicon glyphicon-pencil"></span> Update
+                                            </button>
+                                        </td>
+                                        <td class="text-center" ng-show="person.modify">
+                                            <button ng-disabled="true" type="button" class="btn btn-danger btn-sm">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </td>
+
+                                    </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    </br>
+
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Add Person</h3>
+                                </div>
+                                <div class="panel-body">
+                                    Here you can add Person!
+                                    </br></br>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="/#person" class="btn btn-default btn-lg col-md-offset-3">
+                                                <span class="glyphicon glyphicon-book"></span>  Add!
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Create Thing</h3>
+                                </div>
+                                <div class="panel-body">
+                                    Here you can create thing!
+                                    </br></br>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="/#thing" class="btn btn-default btn-lg col-md-offset-3">
+                                                <span class="glyphicon glyphicon-bookmark"></span> Create!
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Join Set</h3>
+                                </div>
+                                <div class="panel-body">
+                                    Here you can join existing set!
+                                    </br></br>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="" type="button" class="btn btn-default btn-lg col-md-offset-3">
+                                                <span class="glyphicon glyphicon-arrow-right"></span> Join!
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <hr/>
+    <div>Angular seed app: v<span app-version="app-version"></span></div>
+
+</div>
+
+
+
+
+
+
+

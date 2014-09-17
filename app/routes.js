@@ -11,6 +11,13 @@ module.exports = function(app, passport,models) {
         res.render('partials/' + name);
     });
 
+    app.get('/partials/auth/:name', passport.authenticate('local-authorization', {
+        session: false
+    }),function (req, res) {
+        var name = req.params.name;
+        res.render('partials/auth/' + name);
+    });
+
     app.post('/api/login', showClientRequest, passport.authenticate('local-login', {
         session: false
     }),api.login);
@@ -22,13 +29,43 @@ module.exports = function(app, passport,models) {
         session: false
     }),api.logout);
 
+    app.get('/api/people', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }),api.getPeople);
+
+    app.post('/api/person', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }),api.createPerson);
+
+    app.put('/api/person/:id', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }),api.updatePerson);
+
+    app.delete('/api/person/:id', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }),api.removePerson);
+
     app.get('/api/things', showClientRequest, passport.authenticate('local-authorization', {
         session: false
     }),api.getThings);
 
-    app.get('/api/people', showClientRequest, passport.authenticate('local-authorization', {
+    app.post('/api/thing', showClientRequest, passport.authenticate('local-authorization', {
         session: false
-    }),api.getPeople);
+    }),api.createThing);
+
+    app.put('/api/thing/:id', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }),api.updateThing);
+
+    app.delete('/api/thing/:id', showClientRequest, passport.authenticate('local-authorization', {
+        session: false
+    }),api.removeThing);
+
+
+
+
+
+
 
 
 

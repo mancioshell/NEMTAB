@@ -5,7 +5,7 @@
 var myAppServices = angular.module('myAppServices', []);
 
 myAppServices.service('TokenInterceptor',
-    function ($q, $window, localStorageService)
+    function ($q, $location, localStorageService)
     {
         return {
             request: function (config) {
@@ -19,6 +19,17 @@ myAppServices.service('TokenInterceptor',
 
             response: function (response) {
                 return response || $q.when(response);
+            },
+            responseError : function (response) {
+
+                if(response.status===401){
+                    console.log("SOno qui iiii");
+                    $location.path("/login");
+                    noty({text: "You have to perform signin to earned access to privileged resources!",  timeout: 2000, type: 'error'});
+                }
+
+                return $q.reject(response);
+
             }
         };
 });

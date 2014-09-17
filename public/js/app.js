@@ -28,8 +28,18 @@ mainApp.config(['$routeProvider','$httpProvider',
                 access: { requiredLogin: false }
             }).
             when('/home', {
-                templateUrl: 'partials/home',
+                templateUrl: 'partials/auth/home',
                 controller: 'HomeCtrl',
+                access: { requiredLogin: true }
+            }).
+            when('/person', {
+                templateUrl: 'partials/auth/person',
+                controller: 'PersonCtrl',
+                access: { requiredLogin: true }
+            }).
+            when('/thing', {
+                templateUrl: 'partials/auth/thing',
+                controller: 'ThingCtrl',
                 access: { requiredLogin: true }
             }).
             otherwise({

@@ -1,0 +1,43 @@
+<div ng-include src="'partials/nav.html'"></div>
+<div ng-include src="'partials/header.html'"></div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="panel panel-info">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Thing</div>
+
+                <div class="row">
+
+                    <div class="col-md-10 col-md-offset-1">
+
+                        <form ng-submit="createThing()" role="form" class="form-inline">
+                            <fieldset>
+                                <legend>Create new Thing</legend>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="thing.name" placeholder="Type name of thing..." required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control" ng-model="thing.size" placeholder="Tpe size of thing..." required>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Create"/>
+                            </fieldset>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <br>
+                <br>
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

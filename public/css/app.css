@@ -1,8 +1,10 @@
 /* app css stylesheet */
 
-body {
-  padding-top:70px;
+.no-bottom-margin {
+    margin-bottom: 0px;
+    border-radius: 0px;
 }
+
 
 
   
