@@ -5,6 +5,7 @@
      logout, signup and some CRUD operations with Express JS and MongoDB.
      I remove Jade Templating, because i don't like it, so i implemented some
      little html partilals, using Angular JS template engine.
+     Also added bower configuration file to handle JS browser dependency.
 
 
 
