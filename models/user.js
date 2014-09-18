@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
+var expired_time = 60;
 
 module.exports = function(connection) {
 
@@ -17,9 +18,7 @@ module.exports = function(connection) {
     });
 
     userSchema.methods.hasExpired = function() {
-        console.log("Sono dentro hasExpired");
-        console.log(moment().diff(this.token.createDate, 'minutes'));
-        return (moment().diff(this.token.createDate, 'minutes')) > 3;
+        return (moment().diff(this.token.createDate, 'minutes')) > expired_time;
 
     };
 

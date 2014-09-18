@@ -3,8 +3,8 @@
 
 var mainAppControllers = angular.module('mainAppControllers', []);
 
-mainAppControllers.controller('NavCtrl', ['$scope', '$http','$window','$location','localStorageService','AuthenticationService',
-    function ($scope, $http,$window,$location,localStorageService,AuthenticationService) {
+mainAppControllers.controller('NavCtrl', ['$scope', '$http','$location','localStorageService','AuthenticationService',
+    function ($scope, $http,$location,localStorageService,AuthenticationService) {
 
 
         $scope.isAuthenticated = AuthenticationService.isLogged()
@@ -17,16 +17,17 @@ mainAppControllers.controller('NavCtrl', ['$scope', '$http','$window','$location
     }
 ]);
 
-mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$location', "cryptoJSService",'localStorageService',
-    function ($scope, $http,$window,$location,cryptoJSService,localStorageService) {
-
-        console.log(cryptoJSService.cryptoJS);
+mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$location', "cryptoJSService",'localStorageService',
+    function ($scope, $http,$location,CryptoJS,localStorageService) {
 
         $scope.failed_login = "";
 
         $scope.submit = function()
         {
-            var user = {"username": $scope.username, "password": $scope.password};
+            var salt = $scope.username;
+            var enc_password = CryptoJS.PBKDF2($scope.password, salt, { keySize: 256/32 });
+
+            var user = {"username": $scope.username, "password": enc_password.toString()};
 
             if($scope.username!==undefined || $scope.password !==undefined){
                 $http({method: 'POST', url: '/api/login', data:user}).
@@ -37,8 +38,11 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
 
                     }).
                     error(function(data, status, headers, config) {
-                        console.log(data);
-                        noty({text: data,  timeout: 2000, type: 'error'});
+                        if(status===401){
+                            noty({text: 'Wrong username and/or password!',  timeout: 2000, type: 'error'});
+                        }else{
+                            noty({text: data,  timeout: 2000, type: 'error'});
+                        }
                     });
             }else{
                 noty({text: 'Username and password are mandatory!',  timeout: 2000, type: 'error'});
@@ -50,26 +54,32 @@ mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$window','$locati
 ]);
 
 
-mainAppControllers.controller('RegistrationCtrl', ['$scope', '$http','$window','$location',
-    function ($scope, $http) {
+mainAppControllers.controller('RegistrationCtrl', ['$scope', '$http','cryptoJSService',
+    function ($scope, $http, CryptoJS) {
 
         $scope.signup = function()
         {
-            var user = {"username": $scope.username, "password": $scope.password, "check_password" : $scope.check_password};
+            var salt = $scope.username;
+
+            var enc_password = CryptoJS.PBKDF2($scope.password, salt, { keySize: 256/32 });
+            var enc_check_password = CryptoJS.PBKDF2($scope.check_password, salt, { keySize: 256/32 });
+
+            var user = {"username": $scope.username, "password": enc_password.toString(), "check_password" : enc_check_password.toString() };
 
             if($scope.username!==undefined || $scope.password !==undefined || $scope.check_password !==undefined){
 
                 if($scope.password !== $scope.check_password){
                     noty({text: 'password and check_password must be the same!',  timeout: 2000, type: 'warning'});
                 }else{
-                    $http({method: 'POST', url: '/signup', data:user}).
+                    $http({method: 'POST', url: '/api/signup', data:user}).
                         success(function(data, status, headers, config) {
-                            console.log(data);
                             noty({text: "Username is registered correctly!",  timeout: 2000, type: 'success'});
+                            $scope.username = null;
+                            $scope.password = null;
+                            $scope.check_password = null;
                         }).
                         error(function(data, status, headers, config) {
-                            console.log(data);
-                            noty({text: data,  timeout: 2000, type: 'error'});
+                            noty({text: data.message,  timeout: 2000, type: 'error'});
                         });
                 }
 
@@ -84,8 +94,8 @@ mainAppControllers.controller('RegistrationCtrl', ['$scope', '$http','$window','
 
 
 
-mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$location','localStorageService','AuthenticationService',
-    function ($scope, $http,$window,$location,localStorageService,AuthenticationService) {
+mainAppControllers.controller('HomeCtrl', ['$scope', '$http',
+    function ($scope, $http) {
 
         $http({method: 'GET', url: '/api/things'}).
             success(function(data, status, headers, config) {
@@ -191,9 +201,8 @@ mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$locatio
 ]);
 
 
-mainAppControllers.controller('PersonCtrl', ['$scope', '$http','$window','$location','localStorageService','AuthenticationService',
-    function ($scope, $http,$window,$location,localStorageService,AuthenticationService) {
-
+mainAppControllers.controller('PersonCtrl', ['$scope', '$http',
+    function ($scope, $http) {
 
         $scope.person = null;
 
@@ -218,9 +227,8 @@ mainAppControllers.controller('PersonCtrl', ['$scope', '$http','$window','$locat
 
 
 
-mainAppControllers.controller('ThingCtrl', ['$scope', '$http','$window','$location','localStorageService','AuthenticationService',
-    function ($scope, $http,$window,$location,localStorageService,AuthenticationService) {
-
+mainAppControllers.controller('ThingCtrl', ['$scope', '$http',
+    function ($scope, $http) {
 
         $scope.thing = null;
 

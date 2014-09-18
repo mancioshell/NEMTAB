@@ -22,7 +22,9 @@ myAppServices.service('TokenInterceptor',
             },
             responseError : function (response) {
 
-                if(response.status===401){
+                console.log(response);
+
+                if(response.config.url!=="/api/login" && response.status===401){
                     localStorageService.clearAll();
                     $location.path("/login");
                     noty({text: "You have to perform signin to earned access to privileged resources!",  timeout: 2000, type: 'error'});
@@ -36,7 +38,7 @@ myAppServices.service('TokenInterceptor',
 
 myAppServices.service('cryptoJSService',function(){
     console.log(CryptoJS)
-    this.cryptoJS = CryptoJS;
+    return CryptoJS;
 })
 
 myAppServices.service('AuthenticationService',function(localStorageService){
