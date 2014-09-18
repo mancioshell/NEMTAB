@@ -53,11 +53,11 @@ mainApp.config(['$routeProvider','$httpProvider',
 mainApp.run(function($rootScope, $location, AuthenticationService) {
     $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
 
-        if (nextRoute.access.requiredLogin && !AuthenticationService.isLogged()) {
+        if (nextRoute.access===undefined) {
             $location.path("/login");
-        }
-
-        if (AuthenticationService.isLogged() && !nextRoute.access.requiredLogin) {
+        }else if (nextRoute.access.requiredLogin && !AuthenticationService.isLogged()) {
+            $location.path("/login");
+        }else if (AuthenticationService.isLogged() && !nextRoute.access.requiredLogin) {
             $location.path("/home");
         }
     });

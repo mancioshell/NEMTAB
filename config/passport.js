@@ -2,6 +2,7 @@
 var LocalStrategy   = require('passport-local').Strategy;
 var BearerStrategy   = require('passport-http-bearer').Strategy;
 var uuid = require('node-uuid');
+var moment = require('moment');
 
 module.exports = function(passport,models) {
 
@@ -33,7 +34,8 @@ module.exports = function(passport,models) {
                 if (!user){
                     return done(null, false);
                 }
-                user.auth_token = uuid.v1();
+                user.token.auth_token = uuid.v1();
+                user.token.createDate = moment();
 
                 user.save(function(err,user){
                     if (err){
@@ -48,9 +50,18 @@ module.exports = function(passport,models) {
 
     passport.use('local-authorization',new BearerStrategy(
         function(token, done) {
-            User.findOne({ auth_token: token }, function (err, user) {
+
+            console.log(token);
+
+            User.findOne({ 'token.auth_token' : token }, function (err, user) {
                 if (err) { return done(err); }
-                if (!user) { return done(null, false); }
+                if (!user) {
+                    console.log(user);
+                    return done(null, false);
+                }
+                if (user.hasExpired()) {
+                    return done(null, false);
+                }
                 return done(null, user, { scope: 'all' });
             });
         }

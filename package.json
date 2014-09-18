@@ -12,6 +12,7 @@
         "passport-local" : "*",
         "passport-http-bearer" : "*",
         "connect-flash" : "*",
-        "cryptojs" : "*"
+        "cryptojs" : "*",
+        "moment" : "*"
 	}
 }

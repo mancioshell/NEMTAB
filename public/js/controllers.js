@@ -93,10 +93,7 @@ mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$locatio
             }).
             error(function(data, status, headers, config) {
 
-                console.log(data);
-
-                if(status===401){
-                    $location.path("/login");
+                if(status!==401){
                     noty({text: data,  timeout: 2000, type: 'error'});
                 }
             });
@@ -106,7 +103,9 @@ mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$locatio
                 $scope.people = data.people;
             }).
             error(function(data, status, headers, config) {
-                noty({text: data,  timeout: 2000, type: 'error'});
+                if(status!==401){
+                    noty({text: data,  timeout: 2000, type: 'error'});
+                }
             });
 
 
@@ -123,8 +122,9 @@ mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$locatio
                         $scope.people[index].modify=false;
                     }).
                     error(function(data, status, headers, config) {
-                        console.log(data);
-                        noty({text: data,  timeout: 2000, type: 'error'});
+                        if(status!==401){
+                            noty({text: data,  timeout: 2000, type: 'error'});
+                        }
                     });
             }
         }
@@ -142,8 +142,9 @@ mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$locatio
                         $scope.things[index].modify=false;
                     }).
                     error(function(data, status, headers, config) {
-                        console.log(data);
-                        noty({text: data,  timeout: 2000, type: 'error'});
+                        if(status!==401){
+                            noty({text: data,  timeout: 2000, type: 'error'});
+                        }
                     });
             }
         }
@@ -160,7 +161,9 @@ mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$locatio
 
                 }).
                 error(function(data, status, headers, config) {
-
+                    if(status!==401){
+                        noty({text: data,  timeout: 2000, type: 'error'});
+                    }
                 });
 
 
@@ -177,7 +180,9 @@ mainAppControllers.controller('HomeCtrl', ['$scope', '$http','$window','$locatio
 
                 }).
                 error(function(data, status, headers, config) {
-
+                    if(status!==401){
+                        noty({text: data,  timeout: 2000, type: 'error'});
+                    }
                 });
         }
 
@@ -202,7 +207,9 @@ mainAppControllers.controller('PersonCtrl', ['$scope', '$http','$window','$locat
                     noty({text: data.message,  timeout: 2000, type: 'success'});
                 }).
                 error(function(data, status, headers, config) {
-
+                    if(status!==401){
+                        noty({text: data,  timeout: 2000, type: 'error'});
+                    }
                 });
         }
 
@@ -227,7 +234,9 @@ mainAppControllers.controller('ThingCtrl', ['$scope', '$http','$window','$locati
                     noty({text: data.message,  timeout: 2000, type: 'success'});
                 }).
                 error(function(data, status, headers, config) {
-
+                    if(status!==401){
+                        noty({text: data,  timeout: 2000, type: 'error'});
+                    }
                 });
         }
 

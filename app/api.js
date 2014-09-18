@@ -32,7 +32,7 @@ module.exports = function(models){
 
         login:function(req,res)
         {
-            res.json({ auth_token: req.user.auth_token});
+            res.json({ auth_token: req.user.token.auth_token});
         },
 
         logout: function(req,res)

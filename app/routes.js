@@ -6,12 +6,12 @@ module.exports = function(app, passport,models) {
         res.render('index');
     });
 
-    app.get('/partials/:name', function (req, res) {
+    app.get('/partials/:name', showClientRequest, function (req, res) {
         var name = req.params.name;
         res.render('partials/' + name);
     });
 
-    app.get('/partials/auth/:name', passport.authenticate('local-authorization', {
+    app.get('/partials/auth/:name', showClientRequest, passport.authenticate('local-authorization', {
         session: false
     }),function (req, res) {
         var name = req.params.name;

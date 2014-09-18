@@ -23,7 +23,7 @@ myAppServices.service('TokenInterceptor',
             responseError : function (response) {
 
                 if(response.status===401){
-                    console.log("SOno qui iiii");
+                    localStorageService.clearAll();
                     $location.path("/login");
                     noty({text: "You have to perform signin to earned access to privileged resources!",  timeout: 2000, type: 'error'});
                 }
