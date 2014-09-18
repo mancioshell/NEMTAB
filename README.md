@@ -2,10 +2,15 @@
 
      I improved this project, adding Noty JS (http://needim.github.io/noty/) for
      Popup Notifications, and creating a small set of REST APIs to perform login,
-     logout, signup and some CRUD operations with Express JS and MongoDB.
+     logout, signup (using passport js as middleware) and some CRUD operations
+     with Express JS and MongoDB.
+
      I remove Jade Templating, because i don't like it, so i implemented some
      little html partilals, using Angular JS template engine.
+
      Also added bower configuration file to handle JS browser dependency.
+
+     Renamed app.js in server.js.
 
 
 
@@ -34,7 +39,7 @@ Clone the angular-express-seed repository, run `npm install` to grab the depende
 
 Runs like a typical express app:
 
-    node app.js
+    node server.js
 
 ### Running tests
 
@@ -47,48 +52,47 @@ Just fetch the changes and merge them into your project with git.
 
 ## Directory Layout
     
-    app.js              --> app config
+    server.js              --> app config
     package.json        --> for npm
+    config/             --> contains mongoDB and passport configuration
+        database.js
+        passport.js
     models/             --> contains mongoDB simple user Schema
         users.js
+        person.js
+        thing.js
+        models.js
     public/             --> all of the files to be used in on the client side
-      bootstrap/        --> all bootstrap files
-        css/
-        img/
-        js/
       css/              --> css files
         app.css         --> default stylesheet
-      img/              --> image files
       js/               --> javascript files
         app.js          --> declare top-level app module
         controllers.js  --> application controllers
         directives.js   --> custom angular directives
         filters.js      --> custom angular filters
         services.js     --> custom angular services
-        lib/            --> angular and 3rd party JavaScript libraries
+        bower_components/            --> angular and 3rd party JavaScript libraries
           angular/
-            angular.js            --> the latest angular js
-            angular.min.js        --> the latest minified angular js
-            angular-*.js          --> angular add-on modules
-            version.txt           --> version number
+          angular-local-storage/
+          angular-route/
+          bootstrap/
+          cryptojslib/
           jquery/
-            jquery-2.0.3.min.js
           noty/
-            layouts/
-                top.js
-            themes/
-                default.js
-            jquery.noty.js
-    routes/
-      api.js            --> route for serving JSON, contains MongoDB configuration
-      index.js          --> route for serving HTML pages and partials
+    app/
+      api.js            --> api definitions
+      routes.js          --> route for serving HTML pages, JSON and partials
     views/
       index.html        --> main page for app
-      webapp.html       --> session authenticated page
       partials/         --> angular view partials (partial jade templates)
-        home.html
-        login.html
+        header.html
+        nav.html
         register.html
+        login.html
+      auth/
+        home.html
+        person.html
+        thing.html
 
 
 
