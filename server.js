@@ -56,7 +56,7 @@ if (app.get('env') === 'production') {
     // TODO
 };
 
-express.vhost(vhost, app);
+//express.vhost(vhost, app);
 
 var server = http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + vhost+":"+server.address().port);

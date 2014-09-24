@@ -8,7 +8,8 @@
     "noty": "~2.2.2",
     "jquery": "~2.1.0",
     "bootstrap": "~3.1.1",
-    "cryptojs" : "*"
+    "cryptojs" : "*",
+    "requirejs" : "*"
   },
   "private": true,
   "ignore": [
