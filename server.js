@@ -34,7 +34,7 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(express.json());
     app.use(express.urlencoded());
-    app.use(flash()); // use connect-flash for flash messages stored in session
+    //app.use(flash()); // use connect-flash for flash messages stored in session
 
     //passport configuration
     app.use(passport.initialize());

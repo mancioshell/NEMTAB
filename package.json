@@ -15,6 +15,7 @@
         "connect-flash" : "*",
         "cryptojs" : "*",
         "moment" : "*",
-        "requirejs" : "*"
+        "requirejs" : "*",
+        "node-uuid" : "*"
 	}
 }
