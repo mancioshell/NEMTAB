@@ -39,7 +39,7 @@ app.configure(function() {
     //passport configuration
     app.use(passport.initialize());
     //app.use(passport.session());// persistent login sessions
-
+    //provagg
     app.use(app.router); //init routing
 
 });

@@ -16,6 +16,12 @@
         "cryptojs" : "*",
         "moment" : "*",
         "requirejs" : "*",
-        "node-uuid" : "*"
+        "node-uuid" : "*",
+        "open" : "*",
+        "grunt": "*",
+        "grunt-npm-install" : "*",
+        "grunt-bower-installer" : "*",
+        "grunt-contrib-requirejs" : "*",
+        "grunt-nodemon" : "*"
 	}
 }
