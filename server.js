@@ -9,7 +9,7 @@ var http = require('http');
 var path = path = require('path');
 var uuid = require('node-uuid');
 
-var vhost = 'nodejschat.local'
+var vhost = 'nodejsapp.local'
 var port     = process.env.PORT || 3000;
 var ip     = process.env.IP || "localhost";
 

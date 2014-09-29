@@ -8,9 +8,17 @@
      I remove Jade Templating, because i don't like it, so i implemented some
      little html partilals, using Angular JS template engine.
 
-     Also added bower configuration file to handle JS browser dependency.
+     Also added bower configuration file to handle JS browser dependencies.
 
      Renamed app.js in server.js.
+
+     To start application :
+        npm install // to install node modules dependencies
+        bower install // to install bower dependencies
+        node server.js
+
+     To minify application:
+        node_modules/requirejs/bin/r.js -o tools/app.build.js
 
 
 
