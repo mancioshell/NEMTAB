@@ -1,12 +1,12 @@
 require.config({
-    baseUrl: 'bower_components',
+    baseUrl: 'scripts/lib',
     paths :{
         'app' : '../app/app',
         'controllers' : '../app/controllers',
         'services' : '../app/services',
-        'angular' : 'angular/angular',
-        'angular-route' : 'angular-route/angular-route',
-        'angular-local-storage' : 'angular-local-storage/angular-local-storage',
+        'angular' :'angular/angular.min',
+        'angularRoute' : 'angular-route/angular-route.min',
+        'angularLocalStorage' : 'angular-local-storage/angular-local-storage.min',
         'cryptojslib' : 'cryptojslib/rollups/pbkdf2',
         'jquery' : 'jquery/dist/jquery.min',
         'noty': 'noty/js/noty/jquery.noty',
@@ -18,13 +18,13 @@ require.config({
         'angular': {
             exports: 'angular'
         },
-        'angular-route' :{
+        'angularRoute' :{
             deps: ['angular'],
-            exports : 'angular-route'
+            exports : 'angularRoute'
         },
-        'angular-local-storage' :{
+        'angularLocalStorage' :{
             deps: ['angular'],
-            exports : 'angular-local-storage'
+            exports : 'angularLocalStorage'
         },
         'cryptojslib' : {
             exports : 'cryptojslib'
@@ -43,13 +43,9 @@ require.config({
 });
 
 
-define(['require','angular','angular-route','angular-local-storage','cryptojslib','noty',
-    'noty.themes.default','noty.layouts.top','bootstrap','app'], function (require,angular) {
-    'use strict';
-    require([], function () {
-        angular.element(document).ready(function() {
-            angular.bootstrap(document, ['mainApp']);
-        });
+require(['require','angular','angularRoute','angularLocalStorage','cryptojslib','noty',
+    'noty.themes.default','noty.layouts.top','bootstrap','app'], function () {
+    angular.element(document).ready(function() {
+        angular.bootstrap(document, ['mainApp']);
     });
-
 });

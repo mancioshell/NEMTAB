@@ -3,7 +3,7 @@ define(['angular','noty'], function (angular,noty) {
 
     var myAppServices = angular.module('myAppServices', []);
 
-    myAppServices.service('TokenInterceptor',
+    myAppServices.service('TokenInterceptor',['$q','$location','localStorageService',
         function ($q, $location, localStorageService)
         {
             return {
@@ -33,14 +33,14 @@ define(['angular','noty'], function (angular,noty) {
 
                 }
             };
-        });
+        }]);
 
-    myAppServices.service('cryptoJSService',function(){
-        console.log(CryptoJS)
+    myAppServices.service('cryptoJSService',
+        function(){
         return CryptoJS;
     })
 
-    myAppServices.service('AuthenticationService',function(localStorageService){
+    myAppServices.service('AuthenticationService',['localStorageService',function(localStorageService){
         return {
             isLogged: function()
             {
@@ -51,7 +51,7 @@ define(['angular','noty'], function (angular,noty) {
                 return authenticated;
             }
         }
-    })
+    }])
 
     return myAppServices;
 });

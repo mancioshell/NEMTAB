@@ -1,0 +1,5 @@
+node_modules/
+public/scripts/lib/
+*.idea/
+public/scripts/webapp.min.js
+tools/webapp.min.js

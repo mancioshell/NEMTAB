@@ -1,8 +1,8 @@
 
 define([
     'angular',
-    'angular-route',
-    'angular-local-storage',
+    'angularRoute',
+    'angularLocalStorage',
     'controllers',
     'services'
 
@@ -17,13 +17,13 @@ define([
     ]);
 
 
-    mainApp.config(function ($httpProvider) {
+    mainApp.config(['$httpProvider',function ($httpProvider) {
         $httpProvider.interceptors.push('TokenInterceptor');
-    });
+    }]);
 
 
-    mainApp.config(['$routeProvider','$httpProvider',
-        function($routeProvider,$httpProvider) {
+    mainApp.config(['$routeProvider',
+        function($routeProvider) {
 
             $routeProvider.
                 when('/login', {
@@ -59,7 +59,7 @@ define([
     ]);
 
 
-    mainApp.run(function($rootScope, $location, AuthenticationService) {
+    mainApp.run(['$rootScope','$location','AuthenticationService',function($rootScope, $location, AuthenticationService) {
         $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
 
             if (nextRoute.access===undefined) {
@@ -70,7 +70,7 @@ define([
                 $location.path("/home");
             }
         });
-    });
+    }]);
 
     return mainApp;
 
