@@ -4,24 +4,20 @@
 	"private": true,
     "main" : "views/index.html",
 	"dependencies": {
-		"express": "~3.2.6",
+        "express": "~3.2.6",
         "ejs": "~0.7.1",
-        "mongodb" : "*",
         "mongoose" : "*",
         "mongoose-q":"*",
         "passport" : "*",
         "passport-local" : "*",
         "passport-http-bearer" : "*",
+        "moment": "*",
         "connect-flash" : "*",
-        "cryptojs" : "*",
-        "moment" : "*",
         "requirejs" : "*",
         "node-uuid" : "*",
-        "open" : "*",
         "grunt": "*",
         "grunt-npm-install" : "*",
         "grunt-bower-installer" : "*",
-        "grunt-contrib-requirejs" : "*",
-        "grunt-nodemon" : "*"
+        "grunt-contrib-requirejs" : "*"
 	}
 }

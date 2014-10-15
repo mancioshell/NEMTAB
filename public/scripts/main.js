@@ -6,7 +6,7 @@ require.config({
         'services' : '../app/services',
         'angular' :'angular/angular.min',
         'angularRoute' : 'angular-route/angular-route.min',
-        'angularLocalStorage' : 'angular-local-storage/angular-local-storage.min',
+        'angularLocalStorage' : 'angular-local-storage/dist/angular-local-storage.min',
         'cryptojslib' : 'cryptojslib/rollups/pbkdf2',
         'jquery' : 'jquery/dist/jquery.min',
         'noty': 'noty/js/noty/jquery.noty',
