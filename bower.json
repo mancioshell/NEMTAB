@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "dependencies": {
     "angular": "*",
+    "angular-mocks": "*",
     "angular-route": "*",
     "angular-local-storage" : "*",
     "noty": "*",

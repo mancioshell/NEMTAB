@@ -1,18 +1,18 @@
 require.config({
-    baseUrl: 'scripts/lib',
+    baseUrl: '../scripts',
     paths :{
-        'app' : '../app/app',
-        'controllers' : '../app/controllers',
-        'services' : '../app/services',
-        'angular' :'angular/angular.min',
-        'angularRoute' : 'angular-route/angular-route.min',
-        'angularLocalStorage' : 'angular-local-storage/dist/angular-local-storage.min',
-        'cryptojslib' : 'cryptojslib/rollups/pbkdf2',
-        'jquery' : 'jquery/dist/jquery.min',
-        'noty': 'noty/js/noty/jquery.noty',
-        'noty.themes.default': 'noty/js/noty/themes/default',
-        'noty.layouts.top': 'noty/js/noty/layouts/top',
-        'bootstrap' : 'bootstrap/dist/js/bootstrap.min'
+        'app' : 'src/app',
+        'controllers' : 'src/controllers',
+        'services' : 'src/services',
+        'angular' :'lib/angular/angular.min',
+        'angularRoute' : 'lib/angular-route/angular-route.min',
+        'angularLocalStorage' : 'lib/angular-local-storage/dist/angular-local-storage.min',
+        'cryptojslib' : 'lib/cryptojslib/rollups/pbkdf2',
+        'jquery' : 'lib/jquery/dist/jquery.min',
+        'noty': 'lib/noty/js/noty/jquery.noty',
+        'noty.themes.default': 'lib/noty/js/noty/themes/default',
+        'noty.layouts.top': 'lib/noty/js/noty/layouts/top',
+        'bootstrap' : 'lib/bootstrap/dist/js/bootstrap.min'
     },
     shim: {
         'angular': {

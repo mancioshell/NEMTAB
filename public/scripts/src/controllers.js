@@ -3,6 +3,17 @@ define(['angular'], function (angular) {
 
     var mainAppControllers = angular.module('mainAppControllers', []);
 
+    mainAppControllers.controller('ProvaCtrl', ['$scope', function ($scope) {
+
+        $scope.user = "";
+
+        $scope.printHello = function(){
+            return "Hello World "+$scope.user;
+        }
+
+        }
+    ]);
+
     mainAppControllers.controller('NavCtrl', ['$scope', '$http','$location','localStorageService','AuthenticationService',
         function ($scope, $http,$location,localStorageService,AuthenticationService) {
 
