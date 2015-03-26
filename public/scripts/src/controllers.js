@@ -105,30 +105,12 @@ define(['angular'], function (angular) {
 
 
 
-    mainAppControllers.controller('HomeCtrl', ['$scope', '$http',
-        function ($scope, $http) {
+    mainAppControllers.controller('HomeCtrl', ['$scope', '$http','data',
+        function ($scope, $http, data) {
 
-            $http({method: 'GET', url: '/api/things'}).
-                success(function(data, status, headers, config) {
-                    $scope.things = data.things;
-                }).
-                error(function(data, status, headers, config) {
-
-                    if(status!==401){
-                        noty({text: data,  timeout: 2000, type: 'error'});
-                    }
-                });
-
-            $http({method: 'GET', url: '/api/people'}).
-                success(function(data, status, headers, config) {
-                    $scope.people = data.people;
-                }).
-                error(function(data, status, headers, config) {
-                    if(status!==401){
-                        noty({text: data,  timeout: 2000, type: 'error'});
-                    }
-                });
-
+            console.log(data);
+            $scope.people = data[0].people;
+            $scope.things = data[1].things;
 
             $scope.updatePerson = function(index,modify)
             {
@@ -206,14 +188,12 @@ define(['angular'], function (angular) {
                         }
                     });
             }
-
-
         }
     ]);
 
 
-    mainAppControllers.controller('PersonCtrl', ['$scope', '$http',
-        function ($scope, $http) {
+    mainAppControllers.controller('PersonCtrl', ['$scope', 'ResourceService',
+        function ($scope, ResourceService) {
 
             $scope.person = null;
 
@@ -221,16 +201,14 @@ define(['angular'], function (angular) {
             {
                 var person = {person: $scope.person};
 
-                $http({method: 'POST', url: '/api/person',data:person}).
-                    success(function(data, status, headers, config) {
-                        $scope.person = null;
-                        noty({text: data.message,  timeout: 2000, type: 'success'});
-                    }).
-                    error(function(data, status, headers, config) {
-                        if(status!==401){
-                            noty({text: data,  timeout: 2000, type: 'error'});
-                        }
-                    });
+                ResourceService.createPerson(person).then(function(data){
+                    $scope.person = null;
+                    noty({text: data.message,  timeout: 2000, type: 'success'});
+                },function(data, status, headers, config) {
+                    if(status!==401){
+                        noty({text: data,  timeout: 2000, type: 'error'});
+                    }
+                });
             }
 
         }
@@ -238,8 +216,8 @@ define(['angular'], function (angular) {
 
 
 
-    mainAppControllers.controller('ThingCtrl', ['$scope', '$http',
-        function ($scope, $http) {
+    mainAppControllers.controller('ThingCtrl', ['$scope', 'ResourceService',
+        function ($scope, ResourceService) {
 
             $scope.thing = null;
 
@@ -247,16 +225,14 @@ define(['angular'], function (angular) {
             {
                 var thing = {thing: $scope.thing};
 
-                $http({method: 'POST', url: '/api/thing',data:thing}).
-                    success(function(data, status, headers, config) {
-                        $scope.thing = null;
-                        noty({text: data.message,  timeout: 2000, type: 'success'});
-                    }).
-                    error(function(data, status, headers, config) {
-                        if(status!==401){
-                            noty({text: data,  timeout: 2000, type: 'error'});
-                        }
-                    });
+                ResourceService.createThing(thing).then(function(data){
+                    $scope.thing = null;
+                    noty({text: data.message,  timeout: 2000, type: 'success'});
+                },function(data, status, headers, config) {
+                    if(status!==401){
+                        noty({text: data,  timeout: 2000, type: 'error'});
+                    }
+                });
             }
 
         }

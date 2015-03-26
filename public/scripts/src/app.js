@@ -39,6 +39,11 @@ define([
                 when('/home', {
                     templateUrl: 'partials/auth/home',
                     controller: 'HomeCtrl',
+                    resolve: {
+                        data : function(Resolver,ResourceService){
+                            return Resolver([ResourceService.getPeople(true),ResourceService.getThings(true)])
+                        }
+                    },
                     access: { requiredLogin: true }
                 }).
                 when('/person', {
