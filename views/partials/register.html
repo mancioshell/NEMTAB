@@ -5,17 +5,17 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
 
-            <form class="form-inline" role="form" ng-submit="signup()">
+            <form class="form-inline" role="form" ng-submit="vm.signup()">
                 <fieldset>
                     <legend>Register User</legend>
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model="username" placeholder="Type your username..." required>
+                        <input type="text" class="form-control" ng-model="vm.username" placeholder="Type your username..." required>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" ng-model="password" placeholder="Type your password..." required>
+                        <input type="password" class="form-control" ng-model="vm.password" placeholder="Type your password..." required>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" ng-model="check_password" placeholder="Type your password..." required>
+                        <input type="password" class="form-control" ng-model="vm.check_password" placeholder="Type your password..." required>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Create User"/>
@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div ng-show="failed_register" class="alert alert-danger">
-                {{failed_register}}
+                {{vm.failed_register}}
             </div>
         </div>
     </div>

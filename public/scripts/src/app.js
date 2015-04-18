@@ -29,16 +29,19 @@ define([
                 when('/login', {
                     templateUrl: 'partials/login',
                     controller: 'LoginCtrl',
+                    controllerAs: 'vm',
                     access: { requiredLogin: false }
                 }).
                 when('/register', {
                     templateUrl: 'partials/register',
                     controller: 'RegistrationCtrl',
+                    controllerAs: 'vm',
                     access: { requiredLogin: false }
                 }).
                 when('/home', {
                     templateUrl: 'partials/auth/home',
                     controller: 'HomeCtrl',
+                    controllerAs: 'vm',
                     resolve: {
                         data : function(Resolver,ResourceService){
                             return Resolver([ResourceService.getPeople(true),ResourceService.getThings(true)])
@@ -49,11 +52,13 @@ define([
                 when('/person', {
                     templateUrl: 'partials/auth/person',
                     controller: 'PersonCtrl',
+                    controllerAs: 'vm',
                     access: { requiredLogin: true }
                 }).
                 when('/thing', {
                     templateUrl: 'partials/auth/thing',
                     controller: 'ThingCtrl',
+                    controllerAs: 'vm',
                     access: { requiredLogin: true }
                 }).
                 otherwise({

@@ -28,16 +28,16 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="thing in things">
+                                    <tr ng-repeat="thing in vm.things">
                                         <td class="text-center" ng-hide="thing.modify">{{thing.name}}</td>
                                         <td class="text-center" ng-hide="thing.modify">{{thing.size}}</td>
                                         <td class="text-center" ng-hide="thing.modify">
-                                            <button type="button" class="btn btn-primary btn-sm" ng-click="updateThing($index,true)">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.updateThing($index,true)">
                                                 <span class="glyphicon glyphicon-pencil"></span> Modify
                                             </button>
                                         </td>
                                         <td class="text-center" ng-hide="thing.modify">
-                                            <button type="button" ng-click="deleteThing($index)" class="btn btn-danger btn-sm">
+                                            <button type="button" ng-click="vm.deleteThing($index)" class="btn btn-danger btn-sm">
                                                 <span class="glyphicon glyphicon-trash"></span> Delete
                                             </button>
                                         </td>
@@ -50,7 +50,7 @@
                                             <input type="number" class="form-control" ng-model="thing.size" placeholder="thing.size" required>
                                         </td>
                                         <td class="text-center" ng-show="thing.modify">
-                                            <button type="button" class="btn btn-primary btn-sm" ng-click="updateThing($index,false)">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.updateThing($index,false)">
                                                 <span class="glyphicon glyphicon-pencil"></span> Update
                                             </button>
                                         </td>
@@ -89,17 +89,17 @@
                                     </thead>
                                     <tbody>
 
-                                    <tr ng-repeat="person in people">
+                                    <tr ng-repeat="person in vm.people">
 
                                         <td class="text-center" ng-hide="person.modify">{{person.name}}</td>
                                         <td class="text-center" ng-hide="person.modify">{{person.age}}</td>
                                         <td class="text-center" ng-hide="person.modify">
-                                            <button type="button" ng-click="updatePerson($index,true)" class="btn btn-primary btn-sm">
+                                            <button type="button" ng-click="vm.updatePerson($index,true)" class="btn btn-primary btn-sm">
                                                 <span class="glyphicon glyphicon-pencil"></span> Modify
                                             </button>
                                         </td>
                                         <td class="text-center" ng-hide="person.modify">
-                                            <button type="button" ng-click="deletePerson($index)" class="btn btn-danger btn-sm">
+                                            <button type="button" ng-click="vm.deletePerson($index)" class="btn btn-danger btn-sm">
                                                 <span class="glyphicon glyphicon-trash"></span> Delete
                                             </button>
                                         </td>
@@ -111,7 +111,7 @@
                                             <input type="number" class="form-control" ng-model="person.age" placeholder="person.age" required>
                                         </td>
                                         <td class="text-center" ng-show="person.modify">
-                                            <button type="button" class="btn btn-primary btn-sm" ng-click="updatePerson($index,false)">
+                                            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.updatePerson($index,false)">
                                                 <span class="glyphicon glyphicon-pencil"></span> Update
                                             </button>
                                         </td>

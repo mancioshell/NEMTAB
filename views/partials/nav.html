@@ -1,5 +1,4 @@
-<nav class="navbar navbar-default no-bottom-margin" ng-controller="NavCtrl" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
+<nav class="navbar navbar-default no-bottom-margin" ng-controller="NavCtrl as vm" role="navigation">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -10,7 +9,6 @@
         <a class="navbar-brand" href="#/login">Your Brand</a>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
             <li ng-hide="isAuthenticated"><a href="#/login">Login</a></li>
@@ -25,7 +23,7 @@
 
                 </ul>
             </li>
-            <li ng-show="isAuthenticated"><a href="" ng-click="logout()">Logout</a></li>
+            <li ng-show="vm.isAuthenticated"><a href="" ng-click="vm.logout()">Logout</a></li>
         </ul>
 
 

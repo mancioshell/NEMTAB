@@ -2,6 +2,13 @@ define(['angular'], function (angular) {
     'use strict';
 
     var mainAppControllers = angular.module('mainAppControllers', []);
+    mainAppControllers.controller('NavCtrl', ['$location', 'localStorageService', 'AuthenticationService', NavCtrl]);
+    mainAppControllers.controller('LoginCtrl', ['$location', 'ResourceService' ,'cryptoJSService', 'localStorageService', LoginCtrl]);
+    mainAppControllers.controller('RegistrationCtrl', ['ResourceService', 'cryptoJSService', RegistrationCtrl]);
+    mainAppControllers.controller('HomeCtrl', ['ResourceService', 'data', HomeCtrl]);
+    mainAppControllers.controller('PersonCtrl', ['ResourceService', PersonCtrl]);
+    mainAppControllers.controller('ThingCtrl', ['ResourceService', ThingCtrl]);
+
 
     mainAppControllers.controller('ProvaCtrl', ['$scope', function ($scope) {
 
@@ -14,235 +21,216 @@ define(['angular'], function (angular) {
         }
     ]);
 
-    mainAppControllers.controller('NavCtrl', ['$scope', '$http','$location','localStorageService','AuthenticationService',
-        function ($scope, $http,$location,localStorageService,AuthenticationService) {
+
+    function NavCtrl($location, localStorageService, AuthenticationService)
+    {
+        var vm = this;
+        vm.$location = $location;
+        vm.localStorageService = localStorageService;
+        vm.isAuthenticated = AuthenticationService.isLogged()
+    }
+
+    NavCtrl.prototype.logout = function ()
+    {
+        var vm = this;
+        vm.localStorageService.clearAll();
+        vm.$location.path("/login");
+    };
 
 
-            $scope.isAuthenticated = AuthenticationService.isLogged()
 
-            $scope.logout = function()
-            {
-                localStorageService.clearAll();
-                $location.path("/login");
-            }
-        }
-    ]);
+    function LoginCtrl ($location, ResourceService, CryptoJS, localStorageService)
+    {
+        var vm = this;
+        vm.$location = $location;
+        vm.ResourceService = ResourceService;
+        vm.CryptoJS = CryptoJS;
+        vm.localStorageService = localStorageService;
 
-    mainAppControllers.controller('LoginCtrl', ['$scope', '$http','$location', "cryptoJSService",'localStorageService',
-        function ($scope, $http,$location,CryptoJS,localStorageService) {
+        vm.failed_login = "";
+    }
 
-            $scope.failed_login = "";
+    LoginCtrl.prototype.submit = function()
+    {
+        var vm = this;
+        var salt = vm.username;
+        var enc_password = CryptoJS.PBKDF2(vm.password, salt, { keySize: 256/32 });
 
-            $scope.submit = function()
-            {
-                var salt = $scope.username;
-                var enc_password = CryptoJS.PBKDF2($scope.password, salt, { keySize: 256/32 });
+        var user = {"username": vm.username, "password": enc_password.toString()};
 
-                var user = {"username": $scope.username, "password": enc_password.toString()};
+        if(vm.username!==undefined || vm.password !==undefined){
 
-                if($scope.username!==undefined || $scope.password !==undefined){
-                    $http({method: 'POST', url: '/api/login', data:user}).
-                        success(function(data, status, headers, config) {
-
-                            localStorageService.set("auth_token",data.auth_token);
-                            $location.path("/home");
-
-                        }).
-                        error(function(data, status, headers, config) {
-                            if(status===401){
-                                noty({text: 'Wrong username and/or password!',  timeout: 2000, type: 'error'});
-                            }else{
-                                noty({text: data,  timeout: 2000, type: 'error'});
-                            }
-                        });
+            vm.ResourceService.login(user).then(function(data){
+                vm.localStorageService.set("auth_token",data.auth_token);
+                vm.$location.path("/home");
+            },function(data, status) {
+                if(status===401){
+                    noty({text: 'Wrong username and/or password!',  timeout: 2000, type: 'error'});
                 }else{
-                    noty({text: 'Username and password are mandatory!',  timeout: 2000, type: 'error'});
+                    noty({text: data,  timeout: 2000, type: 'error'});
                 }
+            });
 
-            }
-
+        }else{
+            noty({text: 'Username and password are mandatory!',  timeout: 2000, type: 'error'});
         }
-    ]);
+    };
 
+    function RegistrationCtrl (ResourceService, CryptoJS)
+    {
+        var vm = this;
+        vm.ResourceService = ResourceService;
+        vm.CryptoJS = CryptoJS;
+    }
 
-    mainAppControllers.controller('RegistrationCtrl', ['$scope', '$http','cryptoJSService',
-        function ($scope, $http, CryptoJS) {
+    RegistrationCtrl.prototype.signup = function()
+    {
+        var vm = this;
+        var salt = vm.username;
 
-            $scope.signup = function()
-            {
-                var salt = $scope.username;
+        var enc_password = CryptoJS.PBKDF2(vm.password, salt, { keySize: 256/32 });
+        var enc_check_password = CryptoJS.PBKDF2(vm.check_password, salt, { keySize: 256/32 });
 
-                var enc_password = CryptoJS.PBKDF2($scope.password, salt, { keySize: 256/32 });
-                var enc_check_password = CryptoJS.PBKDF2($scope.check_password, salt, { keySize: 256/32 });
+        var user = {"username": vm.username, "password": enc_password.toString(), "check_password" : enc_check_password.toString() };
 
-                var user = {"username": $scope.username, "password": enc_password.toString(), "check_password" : enc_check_password.toString() };
-
-                if($scope.username!==undefined || $scope.password !==undefined || $scope.check_password !==undefined){
-
-                    if($scope.password !== $scope.check_password){
-                        noty({text: 'password and check_password must be the same!',  timeout: 2000, type: 'warning'});
-                    }else{
-                        $http({method: 'POST', url: '/api/signup', data:user}).
-                            success(function(data, status, headers, config) {
-                                noty({text: "Username is registered correctly!",  timeout: 2000, type: 'success'});
-                                $scope.username = null;
-                                $scope.password = null;
-                                $scope.check_password = null;
-                            }).
-                            error(function(data, status, headers, config) {
-                                noty({text: data.message,  timeout: 2000, type: 'error'});
-                            });
-                    }
-
-                }else{
-                    noty({text: 'Username and password are mandatory!',  timeout: 2000, type: 'warning'});
-                }
-
-            }
-
-        }
-    ]);
-
-
-
-    mainAppControllers.controller('HomeCtrl', ['$scope', '$http','data',
-        function ($scope, $http, data) {
-
-            console.log(data);
-            $scope.people = data[0].people;
-            $scope.things = data[1].things;
-
-            $scope.updatePerson = function(index,modify)
-            {
-                var person = $scope.people[index];
-
-                if(modify){
-                    $scope.people[index].modify=true;
-                }else{
-
-                    $http({method: 'PUT', url: '/api/person/'+person._id,data:{person: person}}).
-                        success(function(data, status, headers, config) {
-                            $scope.people[index].modify=false;
-                        }).
-                        error(function(data, status, headers, config) {
-                            if(status!==401){
-                                noty({text: data,  timeout: 2000, type: 'error'});
-                            }
-                        });
-                }
-            }
-
-            $scope.updateThing = function(index,modify)
-            {
-                var thing = $scope.things[index];
-
-                if(modify){
-                    $scope.things[index].modify=true;
-                }else{
-
-                    $http({method: 'PUT', url: '/api/thing/'+thing._id,data:{thing: thing}}).
-                        success(function(data, status, headers, config) {
-                            $scope.things[index].modify=false;
-                        }).
-                        error(function(data, status, headers, config) {
-                            if(status!==401){
-                                noty({text: data,  timeout: 2000, type: 'error'});
-                            }
-                        });
-                }
-            }
-
-
-            $scope.deleteThing = function(index)
-            {
-
-                var thing = $scope.things[index];
-
-                $http({method: 'DELETE', url: '/api/thing/'+thing._id}).
-                    success(function(data, status, headers, config) {
-                        $scope.things.splice(index, 1);
-
-                    }).
-                    error(function(data, status, headers, config) {
-                        if(status!==401){
-                            noty({text: data,  timeout: 2000, type: 'error'});
-                        }
-                    });
-
-
-            }
-
-            $scope.deletePerson = function(index)
-            {
-
-                var person = $scope.people[index];
-
-                $http({method: 'DELETE', url: '/api/person/'+person._id}).
-                    success(function(data, status, headers, config) {
-                        $scope.people.splice(index, 1);
-
-                    }).
-                    error(function(data, status, headers, config) {
-                        if(status!==401){
-                            noty({text: data,  timeout: 2000, type: 'error'});
-                        }
-                    });
-            }
-        }
-    ]);
-
-
-    mainAppControllers.controller('PersonCtrl', ['$scope', 'ResourceService',
-        function ($scope, ResourceService) {
-
-            $scope.person = null;
-
-            $scope.createPerson = function()
-            {
-                var person = {person: $scope.person};
-
-                ResourceService.createPerson(person).then(function(data){
-                    $scope.person = null;
-                    noty({text: data.message,  timeout: 2000, type: 'success'});
-                },function(data, status, headers, config) {
-                    if(status!==401){
-                        noty({text: data,  timeout: 2000, type: 'error'});
-                    }
+        if(vm.username!==undefined || vm.password !==undefined || vm.check_password !==undefined){
+            if(vm.password !== vm.check_password){
+                noty({text: 'password and check_password must be the same!',  timeout: 2000, type: 'warning'});
+            }else{
+                vm.ResourceService.signup(user).then(function(){
+                    noty({text: "Username is registered correctly!",  timeout: 2000, type: 'success'});
+                    vm.username = null;
+                    vm.password = null;
+                    vm.check_password = null;
+                },function(data) {
+                    noty({text: data.message,  timeout: 2000, type: 'error'});
                 });
             }
-
+        }else{
+            noty({text: 'Username and password are mandatory!',  timeout: 2000, type: 'warning'});
         }
-    ]);
+    };
 
 
+    function HomeCtrl(ResourceService, data)
+    {
+        var vm = this;
+        vm.ResourceService = ResourceService;
+        vm.data = data;
 
-    mainAppControllers.controller('ThingCtrl', ['$scope', 'ResourceService',
-        function ($scope, ResourceService) {
+        vm.people = data[0].people;
+        vm.things = data[1].things;
+    }
 
-            $scope.thing = null;
+    HomeCtrl.prototype.updatePerson = function(index, modify)
+    {
+        var vm = this;
+        var person = vm.people[index];
 
-            $scope.createThing = function()
-            {
-                var thing = {thing: $scope.thing};
+        if(modify){
+            vm.people[index].modify=true;
+        }else{
+            vm.ResourceService.updatePerson(person).then(function(){
+                vm.people[index].modify=false;
+            },function(data, status) {
+                if(status!==401){
+                    noty({text: data,  timeout: 2000, type: 'error'});
+                }
+            });
+        }
+    };
 
-                ResourceService.createThing(thing).then(function(data){
-                    $scope.thing = null;
-                    noty({text: data.message,  timeout: 2000, type: 'success'});
-                },function(data, status, headers, config) {
-                    if(status!==401){
-                        noty({text: data,  timeout: 2000, type: 'error'});
-                    }
-                });
+    HomeCtrl.prototype.updateThing = function(index,modify)
+    {
+        var vm = this;
+        var thing = vm.things[index];
+
+        if(modify){
+            vm.things[index].modify=true;
+        }else{
+
+            vm.ResourceService.updateThing(thing).then(function(){
+                vm.things[index].modify=false;
+            },function(data, status) {
+                if(status!==401){
+                    noty({text: data,  timeout: 2000, type: 'error'});
+                }
+            });
+        }
+    };
+
+    HomeCtrl.prototype.deleteThing = function(index)
+    {
+        var vm = this;
+        var thing = vm.things[index];
+
+        vm.ResourceService.deleteThing(thing).then(function(){
+            vm.things.splice(index, 1);
+        },function(data, status) {
+            if(status!==401){
+                noty({text: data,  timeout: 2000, type: 'error'});
             }
+        });
+    };
 
-        }
-    ]);
+    HomeCtrl.prototype.deletePerson = function(index)
+    {
+        var vm = this;
+        var person = vm.people[index];
+
+        vm.ResourceService.deletePerson(person).then(function(){
+            vm.people.splice(index, 1);
+        },function(data, status) {
+            if(status!==401){
+                noty({text: data,  timeout: 2000, type: 'error'});
+            }
+        });
+    };
+
+    function PersonCtrl(ResourceService) {
+        var vm = this;
+        vm.person = null;
+        vm.ResourceService = ResourceService;
+    }
+
+    PersonCtrl.prototype.createPerson = function()
+    {
+        var vm = this;
+        var person = {person: vm.person};
+
+        vm.ResourceService.createPerson(person).then(function(data){
+            vm.person = null;
+            noty({text: data.message,  timeout: 2000, type: 'success'});
+        },function(data, status) {
+            if(status!==401){
+                noty({text: data,  timeout: 2000, type: 'error'});
+            }
+        });
+    };
+
+
+    function ThingCtrl(ResourceService)
+    {
+        var vm = this;
+        vm.thing = null;
+        vm.ResourceService = ResourceService;
+    }
+
+    ThingCtrl.prototype.createThing = function()
+    {
+        var vm = this;
+        var thing = {thing: vm.thing};
+
+        vm.ResourceService.createThing(thing).then(function(data){
+            vm.thing = null;
+            noty({text: data.message,  timeout: 2000, type: 'success'});
+        },function(data, status) {
+            if(status!==401){
+                noty({text: data,  timeout: 2000, type: 'error'});
+            }
+        });
+    };
 
     return mainAppControllers;
 
 });
-
-
-
-
-

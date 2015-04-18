@@ -14,14 +14,14 @@
 
                     <div class="col-md-10 col-md-offset-1">
 
-                        <form ng-submit="createPerson()" role="form" class="form-inline">
+                        <form ng-submit="vm.createPerson()" role="form" class="form-inline">
                             <fieldset>
                                 <legend>Add new Person</legend>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" ng-model="person.name" placeholder="Type name of person..." required>
+                                    <input type="text" class="form-control" ng-model="vm.person.name" placeholder="Type name of person..." required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="number" class="form-control" ng-model="person.age" placeholder="Tpe age of person..." required>
+                                    <input type="number" class="form-control" ng-model="vm.person.age" placeholder="Tpe age of person..." required>
                                 </div>
                                 <input type="submit" class="btn btn-primary" value="Add"/>
                             </fieldset>
