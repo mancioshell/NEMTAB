@@ -3,23 +3,23 @@ define(['angular'], function (angular) {
 
     var mainAppControllers = angular.module('mainAppControllers', []);
     mainAppControllers.controller('NavCtrl', ['$location', 'localStorageService', 'AuthenticationService', NavCtrl]);
-    mainAppControllers.controller('LoginCtrl', ['$location', 'ResourceService' ,'cryptoJSService', 'localStorageService', LoginCtrl]);
-    mainAppControllers.controller('RegistrationCtrl', ['ResourceService', 'cryptoJSService', RegistrationCtrl]);
-    mainAppControllers.controller('HomeCtrl', ['ResourceService', 'data', HomeCtrl]);
-    mainAppControllers.controller('PersonCtrl', ['ResourceService', PersonCtrl]);
-    mainAppControllers.controller('ThingCtrl', ['ResourceService', ThingCtrl]);
+    mainAppControllers.controller('LoginCtrl', ['$location', 'ResourceService' ,'CryptoJSService', 'localStorageService', 'toastr' ,LoginCtrl]);
+    mainAppControllers.controller('RegistrationCtrl', ['ResourceService', 'CryptoJSService', 'toastr', RegistrationCtrl]);
+    mainAppControllers.controller('HomeCtrl', ['ResourceService', 'data', 'toastr', HomeCtrl]);
+    mainAppControllers.controller('PersonCtrl', ['ResourceService', 'toastr', PersonCtrl]);
+    mainAppControllers.controller('ThingCtrl', ['ResourceService', 'toastr', ThingCtrl]);
+    mainAppControllers.controller('ProvaCtrl', [ProvaCtrl]);
 
+    function ProvaCtrl() {
+        var vm = this;
+        vm.user = "";
+    }
 
-    mainAppControllers.controller('ProvaCtrl', ['$scope', function ($scope) {
-
-        $scope.user = "";
-
-        $scope.printHello = function(){
-            return "Hello World "+$scope.user;
-        }
-
-        }
-    ]);
+    ProvaCtrl.prototype.printHello = function()
+    {
+        var vm = this;
+        return "Hello World "+vm.user;
+    };
 
 
     function NavCtrl($location, localStorageService, AuthenticationService)
@@ -39,13 +39,14 @@ define(['angular'], function (angular) {
 
 
 
-    function LoginCtrl ($location, ResourceService, CryptoJS, localStorageService)
+    function LoginCtrl ($location, ResourceService, CryptoJS, localStorageService, toastr)
     {
         var vm = this;
         vm.$location = $location;
         vm.ResourceService = ResourceService;
         vm.CryptoJS = CryptoJS;
         vm.localStorageService = localStorageService;
+        vm.toastr = toastr;
 
         vm.failed_login = "";
     }
@@ -65,9 +66,9 @@ define(['angular'], function (angular) {
                 vm.$location.path("/home");
             },function(data, status) {
                 if(status===401){
-                    noty({text: 'Wrong username and/or password!',  timeout: 2000, type: 'error'});
+                    vm.toastr.error('Wrong username and/or password!');
                 }else{
-                    noty({text: data,  timeout: 2000, type: 'error'});
+                    vm.toastr.error(data);
                 }
             });
 
@@ -76,11 +77,12 @@ define(['angular'], function (angular) {
         }
     };
 
-    function RegistrationCtrl (ResourceService, CryptoJS)
+    function RegistrationCtrl (ResourceService, CryptoJS, toastr)
     {
         var vm = this;
         vm.ResourceService = ResourceService;
         vm.CryptoJS = CryptoJS;
+        vm.toastr = toastr;
     }
 
     RegistrationCtrl.prototype.signup = function()
@@ -95,15 +97,15 @@ define(['angular'], function (angular) {
 
         if(vm.username!==undefined || vm.password !==undefined || vm.check_password !==undefined){
             if(vm.password !== vm.check_password){
-                noty({text: 'password and check_password must be the same!',  timeout: 2000, type: 'warning'});
+                vm.toastr.warning('password and check_password must be the same!');
             }else{
                 vm.ResourceService.signup(user).then(function(){
-                    noty({text: "Username is registered correctly!",  timeout: 2000, type: 'success'});
+                    vm.toastr.success('User successfully registered!');
                     vm.username = null;
                     vm.password = null;
                     vm.check_password = null;
                 },function(data) {
-                    noty({text: data.message,  timeout: 2000, type: 'error'});
+                    vm.toastr.error(data.message);
                 });
             }
         }else{
@@ -112,11 +114,12 @@ define(['angular'], function (angular) {
     };
 
 
-    function HomeCtrl(ResourceService, data)
+    function HomeCtrl(ResourceService, data, toastr)
     {
         var vm = this;
         vm.ResourceService = ResourceService;
         vm.data = data;
+        vm.toastr = toastr;
 
         vm.people = data[0].people;
         vm.things = data[1].things;
@@ -132,15 +135,16 @@ define(['angular'], function (angular) {
         }else{
             vm.ResourceService.updatePerson(person).then(function(){
                 vm.people[index].modify=false;
+                vm.toastr.success("Person successfully updated!");
             },function(data, status) {
                 if(status!==401){
-                    noty({text: data,  timeout: 2000, type: 'error'});
+                    vm.toastr.error(data);
                 }
             });
         }
     };
 
-    HomeCtrl.prototype.updateThing = function(index,modify)
+    HomeCtrl.prototype.updateThing = function(index, modify)
     {
         var vm = this;
         var thing = vm.things[index];
@@ -151,9 +155,10 @@ define(['angular'], function (angular) {
 
             vm.ResourceService.updateThing(thing).then(function(){
                 vm.things[index].modify=false;
+                vm.toastr.success("Thing successfully updated!");
             },function(data, status) {
                 if(status!==401){
-                    noty({text: data,  timeout: 2000, type: 'error'});
+                    vm.toastr.error(data);
                 }
             });
         }
@@ -166,9 +171,10 @@ define(['angular'], function (angular) {
 
         vm.ResourceService.deleteThing(thing).then(function(){
             vm.things.splice(index, 1);
+            vm.toastr.success("Thing successfully deleted!");
         },function(data, status) {
             if(status!==401){
-                noty({text: data,  timeout: 2000, type: 'error'});
+                vm.toastr.error(data);
             }
         });
     };
@@ -180,17 +186,19 @@ define(['angular'], function (angular) {
 
         vm.ResourceService.deletePerson(person).then(function(){
             vm.people.splice(index, 1);
+            vm.toastr.success("Person successfully deleted!");
         },function(data, status) {
             if(status!==401){
-                noty({text: data,  timeout: 2000, type: 'error'});
+                vm.toastr.error(data);
             }
         });
     };
 
-    function PersonCtrl(ResourceService) {
+    function PersonCtrl(ResourceService, toastr) {
         var vm = this;
         vm.person = null;
         vm.ResourceService = ResourceService;
+        vm.toastr = toastr;
     }
 
     PersonCtrl.prototype.createPerson = function()
@@ -200,20 +208,21 @@ define(['angular'], function (angular) {
 
         vm.ResourceService.createPerson(person).then(function(data){
             vm.person = null;
-            noty({text: data.message,  timeout: 2000, type: 'success'});
+            vm.toastr.success(data.message);
         },function(data, status) {
             if(status!==401){
-                noty({text: data,  timeout: 2000, type: 'error'});
+                vm.toastr.error(data);
             }
         });
     };
 
 
-    function ThingCtrl(ResourceService)
+    function ThingCtrl(ResourceService, toastr)
     {
         var vm = this;
         vm.thing = null;
         vm.ResourceService = ResourceService;
+        vm.toastr = toastr;
     }
 
     ThingCtrl.prototype.createThing = function()
@@ -223,10 +232,10 @@ define(['angular'], function (angular) {
 
         vm.ResourceService.createThing(thing).then(function(data){
             vm.thing = null;
-            noty({text: data.message,  timeout: 2000, type: 'success'});
+            vm.toastr.success(data.message);
         },function(data, status) {
             if(status!==401){
-                noty({text: data,  timeout: 2000, type: 'error'});
+                vm.toastr.error(data);
             }
         });
     };

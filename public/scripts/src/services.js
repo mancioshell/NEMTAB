@@ -1,11 +1,11 @@
-define(['angular','noty'], function (angular,noty) {
+define(['angular'], function (angular) {
     'use strict';
 
     var myAppServices = angular.module('myAppServices', []);
     myAppServices.service('Resolver',['$q', Resolver]);
     myAppServices.service('ResourceService',['$q', '$http', ResourceService]);
-    myAppServices.service('TokenInterceptor',['$q','$location','localStorageService', TokenInterceptor]);
-    myAppServices.service('cryptoJSService',[cryptoJSService]);
+    myAppServices.service('TokenInterceptor',['$q','$location','localStorageService', 'toastr' ,TokenInterceptor]);
+    myAppServices.service('CryptoJSService',[CryptoJSService]);
     myAppServices.service('AuthenticationService',['localStorageService', AuthenticationService]);
 
 
@@ -83,7 +83,7 @@ define(['angular','noty'], function (angular,noty) {
         }
     }
 
-    function TokenInterceptor($q, $location, localStorageService)
+    function TokenInterceptor($q, $location, localStorageService, toastr)
     {
         return {
             request: function (config) {
@@ -105,7 +105,7 @@ define(['angular','noty'], function (angular,noty) {
                 if(response.config.url!=="/api/login" && response.status===401){
                     localStorageService.clearAll();
                     $location.path("/login");
-                    noty({text: "You have to perform signin to earned access to privileged resources!",  timeout: 2000, type: 'error'});
+                    toastr.error("You have to perform signin to earned access to privileged resources!");
                 }
 
                 return $q.reject(response);
@@ -115,7 +115,7 @@ define(['angular','noty'], function (angular,noty) {
     }
 
 
-    function cryptoJSService(){
+    function CryptoJSService(){
         return CryptoJS;
     }
 

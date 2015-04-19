@@ -11,11 +11,11 @@
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-            <li ng-hide="isAuthenticated"><a href="#/login">Login</a></li>
-            <li ng-hide="isAuthenticated"><a href="#/register">Register</a></li>
+            <li ng-hide="vm.isAuthenticated"><a href="#/login">Login</a></li>
+            <li ng-hide="vm.isAuthenticated"><a href="#/register">Register</a></li>
 
-            <li ng-show="isAuthenticated"><a href="#/home">Home</a></li>
-            <li ng-show="isAuthenticated" class="dropdown">
+            <li ng-show="vm.isAuthenticated"><a href="#/home">Home</a></li>
+            <li ng-show="vm.isAuthenticated" class="dropdown">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="#/person">Add Person</a></li>

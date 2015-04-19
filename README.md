@@ -1,6 +1,6 @@
-#NodeJS ExpressJS  AngularJS MongoDB Bootstrap NotyJS Seed
+#NodeJS ExpressJS  AngularJS MongoDB Bootstrap Toastr Seed
 
-     I improved this project, adding Noty JS (http://needim.github.io/noty/) for
+     I improved this project, adding Toastr (https://github.com/CodeSeven/toastr) for
      Popup Notifications, and creating a small set of REST APIs to perform login,
      logout, signup (using passport js as middleware) and some CRUD operations
      with Express JS and MongoDB.
@@ -9,6 +9,9 @@
      little html partilals, using Angular JS template engine.
 
      Also added bower configuration file to handle JS browser dependencies.
+
+     Added RequireJS.
+     Added unit test base configuration with Jasmine and Karma.
 
      Renamed app.js in server.js.
 

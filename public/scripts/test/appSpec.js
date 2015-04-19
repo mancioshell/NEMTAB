@@ -2,9 +2,6 @@ define(['angular','angularMock','app'], function(angular, app) {
 
     describe('ProvaCtrl', function() {
         beforeEach(module('mainApp'));
-
-        console.log("prova...");
-
         var $controller;
 
         beforeEach(inject(function(_$controller_){
@@ -18,11 +15,12 @@ define(['angular','angularMock','app'], function(angular, app) {
             beforeEach(function() {
                 $scope = {};
                 controller = $controller('ProvaCtrl', { $scope: $scope });
+
             });
 
             it('helloworld', function() {
-                $scope.user = 'Alessandro';
-                expect($scope.printHello()).toEqual('Hello World Alessandro');
+                controller.user = 'Alessandro';
+                expect(controller.printHello()).toEqual('Hello World Alessandro');
             });
 
         });
