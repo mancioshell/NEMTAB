@@ -2,6 +2,7 @@
 define([
     'angular',
     'angularRoute',
+    'angularAnimate',
     'angularLocalStorage',
     'angularToastr',
     'cryptojslib',
@@ -13,6 +14,7 @@ define([
 
     var mainApp =  angular.module('mainApp', [
         'ngRoute',
+        'ngAnimate',
         'LocalStorageModule',
         'toastr',
         'myAppServices',

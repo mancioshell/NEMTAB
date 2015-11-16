@@ -1,10 +1,10 @@
-define(['angular'], function (angular) {
+define(['angular', 'angularToastr'], function (angular, toastr) {
     'use strict';
 
     var myAppServices = angular.module('myAppServices', []);
     myAppServices.service('Resolver',['$q', Resolver]);
     myAppServices.service('ResourceService',['$q', '$http', ResourceService]);
-    myAppServices.service('TokenInterceptor',['$q','$location','localStorageService', 'toastr' ,TokenInterceptor]);
+    myAppServices.service('TokenInterceptor',['$q','$location','localStorageService', TokenInterceptor]);
     myAppServices.service('CryptoJSService',[CryptoJSService]);
     myAppServices.service('AuthenticationService',['localStorageService', AuthenticationService]);
 
@@ -83,7 +83,7 @@ define(['angular'], function (angular) {
         }
     }
 
-    function TokenInterceptor($q, $location, localStorageService, toastr)
+    function TokenInterceptor($q, $location, localStorageService)
     {
         return {
             request: function (config) {
