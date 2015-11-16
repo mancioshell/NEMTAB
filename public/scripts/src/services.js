@@ -1,4 +1,4 @@
-define(['angular', 'angularToastr'], function (angular, toastr) {
+define(['angular'], function (angular) {
     'use strict';
 
     var myAppServices = angular.module('myAppServices', []);
@@ -95,17 +95,14 @@ define(['angular', 'angularToastr'], function (angular, toastr) {
                 return config;
             },
 
-            response: function (response) {
+            response: function (response) {                
                 return response || $q.when(response);
             },
             responseError : function (response) {
 
-                console.log(response);
-
                 if(response.config.url!=="/api/login" && response.status===401){
                     localStorageService.clearAll();
-                    $location.path("/login");
-                    toastr.error("You have to perform signin to earned access to privileged resources!");
+                    $location.path("/login");                    
                 }
 
                 return $q.reject(response);
